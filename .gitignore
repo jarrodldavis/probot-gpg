@@ -38,3 +38,6 @@ jspm_packages
 
 # GitHub Integration private key
 *.pem
+
+# Local environment variables
+.env
