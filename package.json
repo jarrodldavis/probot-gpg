@@ -7,7 +7,7 @@
   "repository": "https://github.com/jarrodldavis/probot-gpg.git",
   "scripts": {
     "start": "probot run ./index.js",
-    "test": "mocha && xo --extend probot"
+    "test": "xo && mocha"
   },
   "dependencies": {
     "probot": "~0.4.0"
@@ -22,5 +22,8 @@
   "engines": {
     "node": ">= 7.7.0",
     "npm": ">= 4.0.0"
+  },
+  "xo": {
+    "extends": "probot"
   }
 }
