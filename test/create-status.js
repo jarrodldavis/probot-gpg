@@ -19,15 +19,15 @@ const contextMock = {
   }
 };
 
-beforeEach(() => {
-  expect.spyOn(githubMock.repos, 'createStatus');
-});
-
-afterEach(() => {
-  expect.restoreSpies();
-});
-
 describe('create-status', () => {
+  beforeEach(() => {
+    expect.spyOn(githubMock.repos, 'createStatus');
+  });
+
+  afterEach(() => {
+    expect.restoreSpies();
+  });
+
   it('should create a success status when `gpgStatus` is `true`', () => {
     const sha = crypto.createHash('sha1').digest('hex');
     createStatus(githubMock, contextMock, sha, true);
