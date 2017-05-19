@@ -25,6 +25,9 @@
     "npm": ">= 4.0.0"
   },
   "xo": {
-    "extends": "probot"
+    "extends": "probot",
+    "rules": {
+      "object-curly-spacing": "off"
+    }
   }
 }
