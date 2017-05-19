@@ -1,21 +1,13 @@
-const crypto = require('crypto');
 const expect = require('expect');
 const createStatus = require('../lib/create-status');
+const contextMock = require('./mocks/context');
+const createSha = require('./utils/create-sha');
 
 const githubMock = {
   repos: {
     createStatus: () => {
       return new Promise();
     }
-  }
-};
-
-const contextMock = {
-  repo: object => {
-    return Object.assign({}, {
-      owner: 'owner',
-      repo: 'repo'
-    }, object);
   }
 };
 
@@ -29,7 +21,7 @@ describe('create-status', () => {
   });
 
   it('should create a success status when `gpgStatus` is `true`', () => {
-    const sha = crypto.createHash('sha1').digest('hex');
+    const sha = createSha();
     createStatus(githubMock, contextMock, sha, true);
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
@@ -42,7 +34,7 @@ describe('create-status', () => {
   });
 
   it('should create a failure status when `gpgStatus` is `false`', () => {
-    const sha = crypto.createHash('sha1').digest('hex');
+    const sha = createSha();
     createStatus(githubMock, contextMock, sha, false);
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
@@ -56,7 +48,7 @@ describe('create-status', () => {
   });
 
   it('should create a error status when `gpgStatus` is not a boolean', () => {
-    const sha = crypto.createHash('sha1').digest('hex');
+    const sha = createSha();
     createStatus(githubMock, contextMock, sha, 'error');
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
