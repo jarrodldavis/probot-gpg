@@ -17,6 +17,7 @@
     "expect": "^1.20.2",
     "localtunnel": "^1.8.2",
     "mocha": "^3.2.0",
+    "proxyquire": "^1.8.0",
     "xo": "^0.18.0"
   },
   "engines": {
@@ -24,6 +25,9 @@
     "npm": ">= 4.0.0"
   },
   "xo": {
-    "extends": "probot"
+    "extends": "probot",
+    "rules": {
+      "object-curly-spacing": "off"
+    }
   }
 }
