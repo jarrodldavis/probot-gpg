@@ -1,6 +1,12 @@
 const createSha = require('./create-sha');
 
 module.exports = verified => {
+  if (verified === 'error') {
+    return {
+      commit: { sha: createSha() }
+    };
+  }
+
   return {
     commit: {
       sha: createSha(),
