@@ -2,7 +2,7 @@
 
 > A GitHub Integration built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
-[![Build Status](https://travis-ci.com/jarrodldavis/probot-gpg.svg?token=kt4sesdfXg3h6zxmjGuo&branch=develop)](https://travis-ci.com/jarrodldavis/probot-gpg)
+[![Build Status](https://travis-ci.org/jarrodldavis/probot-gpg.svg)](https://travis-ci.org/jarrodldavis/probot-gpg)
 
 ## Setup
 
