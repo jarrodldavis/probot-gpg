@@ -1,43 +1,17 @@
 const expect = require('expect');
 const proxyquire = require('proxyquire');
-const contextMock = require('./mocks/context');
-const createSha = require('./utils/create-sha');
 
-class GitHubMock {
-  constructor() {
-    this.repos = {
-      compareCommits: () => Promise.resolve()
-    };
-  }
-}
+const ContextMock = require('./mocks/context');
+const GitHubMock = require('./mocks/github');
+const RobotMock = require('./mocks/robot');
 
-class RobotMock {
-  constructor(githubMock) {
-    this.githubMock = githubMock;
-  }
-
-  auth() {
-    return Promise.resolve(this.githubMock);
-  }
-}
+const createCommitObject = require('./utils/create-commit');
 
 function arrangeOrchestrator(gpg, createStatus) {
   return proxyquire('../lib/orchestrator', {
     './gpg': gpg,
     './create-status': createStatus
   });
-}
-
-function createCommitObject(verified) {
-  return {
-    commit: {
-      sha: createSha(),
-      verification: {
-        verified,
-        reason: verified ? 'valid' : 'bad_email'
-      }
-    }
-  };
 }
 
 describe('orchestrator', () => {
@@ -71,6 +45,8 @@ describe('orchestrator', () => {
 
     const robotMock = new RobotMock(githubMock);
     expect.spyOn(robotMock, 'auth').andCallThrough();
+
+    const contextMock = new ContextMock();
 
     // Act
     const result = await orchestratorUnderTest(robotMock, event, contextMock);

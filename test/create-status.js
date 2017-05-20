@@ -1,15 +1,14 @@
 const expect = require('expect');
+
 const createStatus = require('../lib/create-status');
-const contextMock = require('./mocks/context');
+
+const ContextMock = require('./mocks/context');
+const GitHubMock = require('./mocks/github');
+
 const createSha = require('./utils/create-sha');
 
-const githubMock = {
-  repos: {
-    createStatus: () => {
-      return new Promise();
-    }
-  }
-};
+const contextMock = new ContextMock();
+const githubMock = new GitHubMock();
 
 describe('create-status', () => {
   beforeEach(() => {
