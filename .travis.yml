@@ -4,3 +4,4 @@ node_js:
   - "7.7.1"
 notifications:
   disabled: true
+after_success: npm run coverage
