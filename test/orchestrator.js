@@ -1,5 +1,5 @@
 const expect = require('expect');
-const mockery = require('mockery');
+const proxyquire = require('proxyquire');
 const contextMock = require('./mocks/context');
 const createSha = require('./utils/create-sha');
 
@@ -10,13 +10,10 @@ const githubMock = {
 };
 
 function arrangeOrchestrator(gpg, createStatus) {
-  mockery.enable();
-  mockery.registerMock('./gpg', gpg);
-  mockery.registerMock('./create-status', createStatus);
-  mockery.registerAllowable('../lib/orchestrator');
-  const orchestratorUnderTest = require('../lib/orchestrator');
-  mockery.disable();
-  return orchestratorUnderTest;
+  return proxyquire('../lib/orchestrator', {
+    './gpg': gpg,
+    './create-status': createStatus
+  });
 }
 
 function createCommitObject(verified) {
@@ -32,16 +29,16 @@ function createCommitObject(verified) {
 }
 
 describe('orchestrator', () => {
-  it('should orchestrate correctly when all commits are verified', async () => {
+  async function testOrchestratorWithCommitsVerifiedStatus(allCommitsVerified) {
     // Arrange
-    const gpgSpy = expect.createSpy().andReturn(true);
-    const createStatusResult = { state: 'success' };
+    const gpgSpy = expect.createSpy().andReturn(allCommitsVerified);
+    const createStatusResult = { state: allCommitsVerified ? 'success' : 'failure' };
     const createStatusSpy = expect.createSpy().andReturn(Promise.resolve(createStatusResult));
     const orchestratorUnderTest = arrangeOrchestrator(gpgSpy, createStatusSpy);
 
-    const baseCommit = createCommitObject(true);
+    const baseCommit = createCommitObject(allCommitsVerified);
     const baseSha = baseCommit.sha;
-    const headCommit = createCommitObject(true);
+    const headCommit = createCommitObject(allCommitsVerified);
     const headSha = headCommit.sha;
 
     expect.spyOn(githubMock.repos, 'compareCommits')
@@ -63,8 +60,22 @@ describe('orchestrator', () => {
       head: headSha
     });
     expect(gpgSpy).toHaveBeenCalledWith(baseCommit.commit);
-    expect(gpgSpy).toHaveBeenCalledWith(headCommit.commit);
-    expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, true);
+    if (allCommitsVerified) {
+      expect(gpgSpy).toHaveBeenCalledWith(headCommit.commit);
+    }
+    expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, allCommitsVerified);
     expect(result).toBe(createStatusResult);
+  }
+
+  it('should orchestrate correctly when all commits are verified', async () => {
+    await testOrchestratorWithCommitsVerifiedStatus(true);
   });
+
+  it('should orchestrate correctly when all commits are not verified', async () => {
+    await testOrchestratorWithCommitsVerifiedStatus(false);
+  });
+
+  it('should orchestrate correctly when some, but not all, commits are not verified');
+
+  it('should orchestrate correctly when gpg verification check fails');
 });
