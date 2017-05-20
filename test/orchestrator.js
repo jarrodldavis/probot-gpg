@@ -3,11 +3,23 @@ const proxyquire = require('proxyquire');
 const contextMock = require('./mocks/context');
 const createSha = require('./utils/create-sha');
 
-const githubMock = {
-  repos: {
-    compareCommits: () => Promise.resolve()
+class GitHubMock {
+  constructor() {
+    this.repos = {
+      compareCommits: () => Promise.resolve()
+    };
   }
-};
+}
+
+class RobotMock {
+  constructor(githubMock) {
+    this.githubMock = githubMock;
+  }
+
+  auth() {
+    return Promise.resolve(this.githubMock);
+  }
+}
 
 function arrangeOrchestrator(gpg, createStatus) {
   return proxyquire('../lib/orchestrator', {
@@ -41,18 +53,31 @@ describe('orchestrator', () => {
     const headCommit = createCommitObject(allCommitsVerified);
     const headSha = headCommit.sha;
 
+    const event = {
+      payload: {
+        installation: { id: Math.ceil(Math.random() * 100) },
+        pull_request: { // eslint-disable-line camelcase
+          base: { sha: baseSha },
+          head: { sha: headSha }
+        }
+      }
+    };
+
+    const githubMock = new GitHubMock();
     expect.spyOn(githubMock.repos, 'compareCommits')
           .andReturn({
             commits: [baseCommit, headCommit]
           });
 
+    const robotMock = new RobotMock(githubMock);
+    expect.spyOn(robotMock, 'auth').andCallThrough();
+
     // Act
-    const result = await orchestratorUnderTest(githubMock, contextMock, {
-      base: { sha: baseSha },
-      head: { sha: headSha }
-    });
+    const result = await orchestratorUnderTest(robotMock, event, contextMock);
 
     // Assert
+    expect(robotMock.auth).toHaveBeenCalledWith(event.payload.installation.id);
+
     expect(githubMock.repos.compareCommits).toHaveBeenCalledWith({
       owner: 'owner',
       repo: 'repo',
