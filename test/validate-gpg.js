@@ -1,12 +1,12 @@
 const expect = require('expect');
-const gpg = require('../lib/gpg');
+const validateGpg = require('../lib/validate-gpg');
 
 const GitHubMock = require('./mocks/github');
 const ContextMock = require('./mocks/context');
 
 const createCommit = require('./utils/create-commit');
 
-describe('gpg', () => {
+describe('validate-gpg', () => {
   function testScenario(baseVerified, middleVerified, headVerified) {
     const [baseCommit, middleCommit, headCommit] = [baseVerified, middleVerified, headVerified].map(createCommit);
     const githubMock = new GitHubMock();
@@ -15,7 +15,7 @@ describe('gpg', () => {
       commits: [headCommit, middleCommit, baseCommit]
     }));
 
-    return gpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
+    return validateGpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
   }
 
   it('should return true if all of the commits have a verified GPG signature', () => {

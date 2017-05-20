@@ -46,7 +46,7 @@ describe('create-status', () => {
     });
   });
 
-  it('should create a error status when `gpgStatus` is not a boolean', () => {
+  it('should create an error status when `gpgStatus` is not a boolean', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, 'error');
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
