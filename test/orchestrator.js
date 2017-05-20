@@ -5,7 +5,8 @@ const ContextMock = require('./mocks/context');
 const GitHubMock = require('./mocks/github');
 const RobotMock = require('./mocks/robot');
 
-const createCommitObject = require('./utils/create-commit');
+const createSha = require('./utils/create-sha');
+const createEvent = require('./utils/create-event');
 
 function arrangeOrchestrator(gpg, createStatus) {
   return proxyquire('../lib/orchestrator', {
@@ -15,36 +16,19 @@ function arrangeOrchestrator(gpg, createStatus) {
 }
 
 describe('orchestrator', () => {
-  async function testOrchestratorWithCommitsVerifiedStatus(allCommitsVerified) {
+  async function testScenario(gpgSpy, allCommitsVerified, statusState) {
     // Arrange
-    const gpgSpy = expect.createSpy().andReturn(allCommitsVerified);
-    const createStatusResult = { state: allCommitsVerified ? 'success' : 'failure' };
+    const createStatusResult = { state: statusState };
     const createStatusSpy = expect.createSpy().andReturn(Promise.resolve(createStatusResult));
+
     const orchestratorUnderTest = arrangeOrchestrator(gpgSpy, createStatusSpy);
 
-    const baseCommit = createCommitObject(allCommitsVerified);
-    const baseSha = baseCommit.sha;
-    const headCommit = createCommitObject(allCommitsVerified);
-    const headSha = headCommit.sha;
-
-    const event = {
-      payload: {
-        installation: { id: Math.ceil(Math.random() * 100) },
-        pull_request: { // eslint-disable-line camelcase
-          base: { sha: baseSha },
-          head: { sha: headSha }
-        }
-      }
-    };
-
     const githubMock = new GitHubMock();
-    expect.spyOn(githubMock.repos, 'compareCommits')
-          .andReturn({
-            commits: [baseCommit, headCommit]
-          });
-
     const robotMock = new RobotMock(githubMock);
     expect.spyOn(robotMock, 'auth').andCallThrough();
+
+    const [baseSha, headSha] = [createSha(), createSha()];
+    const event = createEvent(baseSha, headSha);
 
     const contextMock = new ContextMock();
 
@@ -53,30 +37,24 @@ describe('orchestrator', () => {
 
     // Assert
     expect(robotMock.auth).toHaveBeenCalledWith(event.payload.installation.id);
-
-    expect(githubMock.repos.compareCommits).toHaveBeenCalledWith({
-      owner: 'owner',
-      repo: 'repo',
-      base: baseSha,
-      head: headSha
-    });
-    expect(gpgSpy).toHaveBeenCalledWith(baseCommit.commit);
-    if (allCommitsVerified) {
-      expect(gpgSpy).toHaveBeenCalledWith(headCommit.commit);
-    }
+    expect(gpgSpy).toHaveBeenCalledWith(githubMock, baseSha, headSha);
     expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, allCommitsVerified);
     expect(result).toBe(createStatusResult);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
-    await testOrchestratorWithCommitsVerifiedStatus(true);
+    const gpgSpy = expect.createSpy().andReturn(true);
+    await testScenario(gpgSpy, true, 'success');
   });
 
   it('should orchestrate correctly when all commits are not verified', async () => {
-    await testOrchestratorWithCommitsVerifiedStatus(false);
+    const gpgSpy = expect.createSpy().andReturn(false);
+    await testScenario(gpgSpy, false, 'failure');
   });
 
-  it('should orchestrate correctly when some, but not all, commits are not verified');
-
-  it('should orchestrate correctly when gpg verification check fails');
+  it('should orchestrate correctly when gpg verification check fails', async () => {
+    const err = new Error('The verification status of the commit cannot be determined');
+    const gpgSpy = expect.createSpy().andThrow(err);
+    await testScenario(gpgSpy, 'error', 'error');
+  });
 });
