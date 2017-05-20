@@ -18,15 +18,19 @@ describe('gpg', () => {
     return gpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
   }
 
-  it('should return true if the commit has a verified GPG signature', () => {
+  it('should return true if all of the commits have a verified GPG signature', () => {
     return testScenario(true, true, true).then(result => expect(result).toBe(true));
   });
 
-  it('should return false if the commit has an invalid GPG signature', () => {
+  it('should return false if all of the commits have an invalid GPG signature', () => {
     return testScenario(false, false, false).then(result => expect(result).toBe(false));
   });
 
-  it('should throw if the commit does not have GPG signature information', () => {
+  it('should return false if one, but not all, of the commits has an invalid GPG signature', async () => {
+    return testScenario(true, false, true).then(result => expect(result).toBe(false));
+  });
+
+  it('should throw if a commit does not have GPG signature information', () => {
     return testScenario(true, 'error', true)
       .catch(err => err)
       .then(result => {
