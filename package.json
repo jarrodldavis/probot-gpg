@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
-    "eslint-config-probot": ">=0.1.0",
     "expect": "^1.20.2",
     "localtunnel": "^1.8.2",
     "mocha": "^3.2.0",
@@ -28,9 +27,18 @@
     "npm": ">= 4.0.0"
   },
   "xo": {
-    "extends": "probot",
+    "extends": "xo/esnext",
+    "space": true,
     "rules": {
       "object-curly-spacing": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": "test/*.js",
+        "env": [
+          "mocha"
+        ]
+      }
+    ]
   }
 }
