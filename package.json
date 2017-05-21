@@ -9,7 +9,8 @@
     "start": "probot run ./index.js",
     "test": "xo && nyc mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "nock-record": "./scripts/nock-record"
+    "nock-record": "./scripts/nock-record",
+    "lt": "lt --port 3000"
   },
   "dependencies": {
     "probot": "~0.5.0"
