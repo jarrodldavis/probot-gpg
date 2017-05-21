@@ -3,7 +3,6 @@
 require('dotenv').config();
 
 const fs = require('fs');
-const inspect = require('util').inspect;
 const nock = require('nock');
 const createProbot = require('probot');
 
@@ -17,7 +16,7 @@ nock.recorder.rec({
 `
 <!-- Start Entry -->
 
-${inspect(content)}
+${JSON.stringify(content, null, 2)}
 
 <!-- End Entry -->
 `;
