@@ -5,6 +5,7 @@ require('dotenv').config();
 const fs = require('fs');
 const nock = require('nock');
 const createProbot = require('probot');
+const stripAnsi = require('strip-ansi');
 
 const plugin = require('../');
 
@@ -30,6 +31,15 @@ ${JSON.stringify(content, null, 2)}
 function throwError(message) {
   throw new Error(message);
 }
+
+process.env.LOG_LEVEL = 'trace';
+
+const stdoutWrite = process.stdout.write;
+const fileStream = fs.createWriteStream('.probot-log');
+process.stdout.write = (chunk, encoding, callback) => {
+  stdoutWrite.call(process.stdout, chunk, encoding, callback);
+  fileStream.write(stripAnsi(chunk), encoding);
+};
 
 const probot = createProbot({
   id: process.env.INTEGRATION_ID || throwError('Integration ID not specified.'),
