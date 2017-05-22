@@ -1,5 +1,3 @@
-const handleEvent = require('./lib/handle-event');
+const Plugin = require('./lib/plugin');
 
-module.exports = robot => {
-  robot.on('pull_request', (event, context) => handleEvent(robot, event, context));
-};
+module.exports = robot => new Plugin().load(robot);
