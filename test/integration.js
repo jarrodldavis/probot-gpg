@@ -1,0 +1,83 @@
+require('dotenv').config();
+
+const http = require('http');
+const createProbot = require('probot');
+const nock = require('nock');
+
+const Plugin = require('../lib/plugin');
+
+const tokenRequestRequest = require('./fixtures/token-request');
+
+const FixtureNockScope = require('./utils/fixture-nock-scope');
+
+const apiScope = 'https://api.github.com:443';
+
+function arrangeProbot(plugin) {
+  function throwError(message) {
+    throw new Error(message);
+  }
+
+  const probot = createProbot({
+    id: process.env.INTEGRATION_ID || throwError('Integration ID not specified.'),
+    secret: process.env.WEBHOOK_SECRET || 'development',
+    cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
+    port: 3000
+  });
+
+  probot.load(plugin.load.bind(plugin));
+
+  return probot;
+}
+
+function arrangeApi(compareCommitsRequest, createStatusRequest) {
+  return new FixtureNockScope(apiScope)
+    .interceptFromFixture(tokenRequestRequest)
+    .interceptFromFixture(compareCommitsRequest)
+    .interceptFromFixture(createStatusRequest);
+}
+
+describe.skip('integration', () => {
+  before(() => {
+    nock.disableNetConnect();
+    nock.enableNetConnect('localhost:3000');
+  });
+
+  after(() => {
+    nock.cleanAll();
+    nock.enableNetConnect();
+  });
+
+  it('should create a status when a pull request is opened', done => {
+    const api = arrangeApi(
+      require('./fixtures/open/compare-commits'),
+      require('./fixtures/open/create-status')
+    );
+
+    const plugin = new Plugin();
+    plugin.on('error', err => done(err));
+    plugin.on('finished', () => {
+      api.nock.done();
+      done();
+    });
+
+    const probot = arrangeProbot(plugin);
+
+    probot.server.on('listening', () => {
+      const { method, path, headers, body } = require('./fixtures/open/webhook-request').request;
+      const req = http.request({
+        hostname: 'localhost',
+        port: 3000,
+        method,
+        path,
+        headers
+      });
+
+      req.on('error', err => done(err));
+
+      req.write(JSON.stringify(body));
+      req.end();
+    });
+
+    probot.start();
+  });
+});
