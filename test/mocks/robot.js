@@ -3,6 +3,10 @@ module.exports = class RobotMock {
     this.githubMock = githubMock;
   }
 
+  on() {
+    return this;
+  }
+
   auth() {
     return Promise.resolve(this.githubMock);
   }
