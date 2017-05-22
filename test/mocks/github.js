@@ -10,5 +10,6 @@ class RepoMock {
 module.exports = class GitHubMock {
   constructor() {
     this.repos = new RepoMock();
+    this.acceptUrls = [];
   }
 };
