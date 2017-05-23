@@ -47,7 +47,22 @@ describe('plugin', () => {
     expect(finishedEventSpy).toHaveBeenCalled();
   });
 
-  it('should emit error event when event handler fails');
+  it('should emit error event when event handler fails', async () => {
+    // Arrange
+    const handleEventSpy = expect.createSpy().andThrow(new Error('Something happened'));
+    const { plugin, robotMock, contextMock, event } = arrange(handleEventSpy);
+
+    plugin.load(robotMock);
+
+    const errorEventSpy = expect.createSpy();
+    plugin.on('error', errorEventSpy);
+
+    // Act
+    await plugin.acceptEvent(event, contextMock);
+
+    // Assert
+    expect(errorEventSpy).toHaveBeenCalled();
+  });
 
   it('should throw if loaded more than once');
 
