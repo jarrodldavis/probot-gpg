@@ -6,7 +6,7 @@ const nock = require('nock');
 
 const Plugin = require('../lib/plugin');
 
-const tokenRequestRequest = require('./fixtures/token-request');
+const tokenRequest = require('./fixtures/token-request');
 
 const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
@@ -34,7 +34,7 @@ function arrangeProbot(plugin) {
 
 function arrangeApi(compareCommitsRequest, createStatusRequest) {
   return new FixtureNockScope(apiScope)
-    .interceptFromFixture(tokenRequestRequest)
+    .interceptFromFixture(tokenRequest)
     .interceptFromFixture(compareCommitsRequest)
     .interceptFromFixture(createStatusRequest);
 }
