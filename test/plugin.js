@@ -64,7 +64,7 @@ describe('plugin', () => {
     expect(errorEventSpy).toHaveBeenCalled();
   });
 
-  it('should throw if loaded more than once', () => {
+  it('should emit error event if loaded more than once', () => {
     // Arrange
     const { plugin, robotMock } = arrange(expect.createSpy());
 
@@ -79,7 +79,7 @@ describe('plugin', () => {
     expect(errorEventSpy).toHaveBeenCalled();
   });
 
-  it('should throw if events are given before loading', async () => {
+  it('should emmit error event if events are given before loading', async () => {
     // Arrange
     const { plugin, contextMock, event } = arrange(expect.createSpy());
 
@@ -96,9 +96,6 @@ describe('plugin', () => {
   it('should throw if `load` is called with incorrect execution context', () => {
     // Arrange
     const { plugin, robotMock } = arrange(expect.createSpy());
-
-    const errorEventSpy = expect.createSpy();
-    plugin.on('error', errorEventSpy);
 
     // Act, Assert
     expect(() => plugin.load.call(undefined, robotMock))
