@@ -8,6 +8,7 @@ const Plugin = require('../lib/plugin');
 
 const tokenRequestRequest = require('./fixtures/token-request');
 
+const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
 
 const apiScope = 'https://api.github.com:443';
@@ -17,16 +18,17 @@ function arrangeProbot(plugin) {
     throw new Error(message);
   }
 
-  const probot = createProbot({
+  const options = {
     id: process.env.INTEGRATION_ID || throwError('Integration ID not specified.'),
     secret: process.env.WEBHOOK_SECRET || 'development',
     cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
     port: 3000
-  });
+  };
+  const probot = createProbot(options);
 
   probot.load(plugin.load.bind(plugin));
 
-  return probot;
+  return { probot, options };
 }
 
 function arrangeApi(compareCommitsRequest, createStatusRequest) {
@@ -64,10 +66,11 @@ describe('integration', function () {
       done();
     });
 
-    const probot = arrangeProbot(plugin);
+    const { probot, options } = arrangeProbot(plugin);
 
     probot.server.on('listening', () => {
       const { method, path, headers, body } = require('./fixtures/open/webhook-request').request;
+      headers['X-Hub-Signature'] = createWebhookSignature(options.secret, body);
       const req = http.request({
         hostname: 'localhost',
         port: 3000,
