@@ -55,7 +55,7 @@ describe.skip('integration', () => {
 
     const plugin = new Plugin();
     plugin.on('error', err => done(err));
-    plugin.on('finished', () => {
+    plugin.on('event-handled', () => {
       api.nock.done();
       done();
     });
