@@ -8,6 +8,7 @@ const Plugin = require('../lib/plugin');
 
 const tokenRequest = require('./fixtures/token-request');
 
+const createIntegrationJwt = require('./utils/create-integration-jwt');
 const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
 
@@ -33,8 +34,17 @@ function arrangeProbot(plugin) {
 }
 
 function arrangeApi(compareCommitsRequest, createStatusRequest) {
+  const integrationJwt = createIntegrationJwt(
+    new Date('2017-05-21T23:45:59.000Z'),
+    probotOptions.id,
+    probotOptions.cert
+  );
+
+  const authorizedTokenRequest = Object.assign({}, tokenRequest);
+  authorizedTokenRequest.request.headers.Authorization = 'Bearer ' + integrationJwt;
+
   return new FixtureNockScope(apiScope)
-    .interceptFromFixture(tokenRequest)
+    .interceptFromFixture(authorizedTokenRequest)
     .interceptFromFixture(compareCommitsRequest)
     .interceptFromFixture(createStatusRequest);
 }
