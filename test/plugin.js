@@ -64,7 +64,20 @@ describe('plugin', () => {
     expect(errorEventSpy).toHaveBeenCalled();
   });
 
-  it('should throw if loaded more than once');
+  it('should throw if loaded more than once', () => {
+    // Arrange
+    const { plugin, robotMock } = arrange(expect.createSpy());
+
+    const errorEventSpy = expect.createSpy();
+    plugin.on('error', errorEventSpy);
+
+    // Act
+    plugin.load(robotMock);
+    plugin.load(robotMock);
+
+    // Assert
+    expect(errorEventSpy).toHaveBeenCalled();
+  });
 
   it('should throw if events are given before loading');
 
