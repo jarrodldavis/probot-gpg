@@ -9,6 +9,7 @@ const Plugin = require('../lib/plugin');
 const tokenRequest = require('./fixtures/token-request');
 
 const createIntegrationJwt = require('./utils/create-integration-jwt');
+const createSha = require('./utils/create-sha');
 const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
 
@@ -42,6 +43,11 @@ function arrangeApi(compareCommitsRequest, createStatusRequest) {
 
   const authorizedTokenRequest = Object.assign({}, tokenRequest);
   authorizedTokenRequest.request.headers.Authorization = 'Bearer ' + integrationJwt;
+
+  const token = 'v1.' + createSha();
+  authorizedTokenRequest.response.body.token = token;
+  compareCommitsRequest.request.headers.Authorization = 'token ' + token;
+  createStatusRequest.request.headers.Authorization = 'token ' + token;
 
   return new FixtureNockScope(apiScope)
     .interceptFromFixture(authorizedTokenRequest)
