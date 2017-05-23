@@ -72,8 +72,8 @@ describe('integration', function () {
 
   it('should create a status when a pull request is opened', done => {
     const api = arrangeApi(
-      require('./fixtures/open/compare-commits'),
-      require('./fixtures/open/create-status')
+      require('./fixtures/opened/compare-commits'),
+      require('./fixtures/opened/create-status')
     );
 
     const plugin = new Plugin();
@@ -86,7 +86,7 @@ describe('integration', function () {
     const probot = arrangeProbot(plugin);
 
     probot.server.on('listening', () => {
-      const { method, path, headers, body } = require('./fixtures/open/webhook-request').request;
+      const { method, path, headers, body } = require('./fixtures/opened/webhook-request').request;
       headers['X-Hub-Signature'] = createWebhookSignature(probotOptions.secret, body);
       const req = http.request({
         hostname: 'localhost',
