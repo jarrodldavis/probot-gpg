@@ -36,7 +36,11 @@ function arrangeApi(compareCommitsRequest, createStatusRequest) {
     .interceptFromFixture(createStatusRequest);
 }
 
-describe.skip('integration', () => {
+// eslint-disable-next-line prefer-arrow-callback
+describe('integration', function () {
+  this.slow(3000);
+  this.timeout(5000);
+
   before(() => {
     nock.disableNetConnect();
     nock.enableNetConnect('localhost:3000');
