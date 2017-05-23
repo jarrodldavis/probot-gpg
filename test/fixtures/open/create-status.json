@@ -1,0 +1,76 @@
+{
+  "scope": "https://api.github.com:443",
+  "request": {
+    "method": "POST",
+    "path": "/repos/jarrodldavis/git-flow-test/statuses/572293354baad854193679869b07bfea637771cf",
+    "headers": {
+      "Host": "api.github.com",
+      "Content-Length": 93,
+      "Content-Type": "application/json; charset=utf-8",
+      "Authorization": "",
+      "Accept": "application/vnd.github.v3+json"
+    },
+    "body": {
+      "state": "success",
+      "description": "All commits have a verified GPG signature",
+      "context": "GPG"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 21 May 2017 23:46:31 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "1351",
+      "Connection": "close",
+      "Status": "201 Created",
+      "X-RateLimit-Limit": "5000",
+      "X-RateLimit-Remaining": "4974",
+      "X-RateLimit-Reset": "1495411651",
+      "Cache-Control": "private, max-age=60, s-maxage=60",
+      "Vary": "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding",
+      "ETag": "\"5a17f410cbd3ac34bacdd1705b1330d8\"",
+      "Location": "https://api.github.com/repos/jarrodldavis/git-flow-test/statuses/572293354baad854193679869b07bfea637771cf",
+      "X-GitHub-Media-Type": "github.v3; format=json",
+      "Access-Control-Expose-Headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Security-Policy": "default-src 'none'",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "deny",
+      "X-XSS-Protection": "1; mode=block",
+      "X-Served-By": "a30e6f9aa7cf5731b87dfb3b9992202d",
+      "X-GitHub-Request-Id": "B175:6EB5:42F5C55:4F63CFF:592226D7"
+    },
+    "body": {
+      "url": "https://api.github.com/repos/jarrodldavis/git-flow-test/statuses/572293354baad854193679869b07bfea637771cf",
+      "id": 1240299012,
+      "state": "success",
+      "description": "All commits have a verified GPG signature",
+      "target_url": null,
+      "context": "GPG",
+      "created_at": "2017-05-21T23:46:31Z",
+      "updated_at": "2017-05-21T23:46:31Z",
+      "creator": {
+        "login": "jarrodldavis[bot]",
+        "id": 28695938,
+        "avatar_url": "https://avatars3.githubusercontent.com/u/235875?v=3",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jarrodldavis%5Bbot%5D",
+        "html_url": "https://github.com/integration/jarrodldavis",
+        "followers_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/jarrodldavis%5Bbot%5D/received_events",
+        "type": "Bot",
+        "site_admin": false
+      }
+    }
+  }
+}
