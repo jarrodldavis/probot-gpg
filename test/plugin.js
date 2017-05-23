@@ -31,7 +31,7 @@ describe('plugin', () => {
     expect(handleEventSpy).toHaveBeenCalledWith(robotMock, event, contextMock);
   });
 
-  it('should emit finished event when event is handled successfully');
+  it('should emit event-handled event when event is handled successfully');
 
   it('should emit error event when event handler fails');
 
