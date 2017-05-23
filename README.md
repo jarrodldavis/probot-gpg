@@ -1,5 +1,7 @@
 # probot-gpg
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/)
+
 > A GitHub Integration built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
 [![Build Status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg)
