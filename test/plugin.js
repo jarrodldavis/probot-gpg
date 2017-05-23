@@ -79,7 +79,19 @@ describe('plugin', () => {
     expect(errorEventSpy).toHaveBeenCalled();
   });
 
-  it('should throw if events are given before loading');
+  it('should throw if events are given before loading', async () => {
+    // Arrange
+    const { plugin, contextMock, event } = arrange(expect.createSpy());
+
+    const errorEventSpy = expect.createSpy();
+    plugin.on('error', errorEventSpy);
+
+    // Act
+    await plugin.acceptEvent(event, contextMock);
+
+    // Assert
+    expect(errorEventSpy).toHaveBeenCalled();
+  });
 
   it('should throw if `load` is called with incorrect execution context');
 
