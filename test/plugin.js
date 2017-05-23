@@ -31,7 +31,21 @@ describe('plugin', () => {
     expect(handleEventSpy).toHaveBeenCalledWith(robotMock, event, contextMock);
   });
 
-  it('should emit event-handled event when event is handled successfully');
+  it('should emit event-handled event when event is handled successfully', async () => {
+    // Arrange
+    const { plugin, robotMock, contextMock, event } = arrange(expect.createSpy());
+
+    plugin.load(robotMock);
+
+    const finishedEventSpy = expect.createSpy();
+    plugin.on('event-handled', finishedEventSpy);
+
+    // Act
+    await plugin.acceptEvent(event, contextMock);
+
+    // Assert
+    expect(finishedEventSpy).toHaveBeenCalled();
+  });
 
   it('should emit error event when event handler fails');
 
