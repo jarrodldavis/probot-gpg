@@ -93,7 +93,17 @@ describe('plugin', () => {
     expect(errorEventSpy).toHaveBeenCalled();
   });
 
-  it('should throw if `load` is called with incorrect execution context');
+  it('should throw if `load` is called with incorrect execution context', () => {
+    // Arrange
+    const { plugin, robotMock } = arrange(expect.createSpy());
+
+    const errorEventSpy = expect.createSpy();
+    plugin.on('error', errorEventSpy);
+
+    // Act, Assert
+    expect(() => plugin.load.call(undefined, robotMock))
+      .toThrow('Unexpected execution context for method call');
+  });
 
   it('should throw if `acceptEvent` is called with incorrect execution context');
 });
