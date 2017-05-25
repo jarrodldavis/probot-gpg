@@ -10,24 +10,14 @@ const tokenRequest = require('./fixtures/token-request');
 
 const createIntegrationJwt = require('./utils/create-integration-jwt');
 const createIntegrationId = require('./utils/create-integration-id');
+const createPrivateKey = require('./utils/create-private-key');
 const createSha = require('./utils/create-sha');
 const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
 
 const apiScope = 'https://api.github.com:443';
 
-function throwError(message) {
-  throw new Error(message);
-}
-
-const probotOptions = {
-  id: process.env.INTEGRATION_ID || createIntegrationId(),
-  secret: process.env.WEBHOOK_SECRET || createSha(),
-  cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
-  port: 3000
-};
-
-function arrangeProbot(plugin) {
+function arrangeProbot(probotOptions, plugin) {
   const probot = createProbot(probotOptions);
 
   probot.load(plugin.load.bind(plugin));
@@ -35,7 +25,7 @@ function arrangeProbot(plugin) {
   return probot;
 }
 
-function arrangeApi(compareCommitsRequest, createStatusRequest) {
+function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
   const integrationJwt = createIntegrationJwt(
     new Date('2017-05-21T23:45:59.000Z'),
     probotOptions.id,
@@ -61,7 +51,16 @@ describe('integration', function () {
   this.slow(3000);
   this.timeout(5000);
 
-  before(() => {
+  let probotOptions = null;
+
+  before(async () => {
+    probotOptions = {
+      id: process.env.INTEGRATION_ID || createIntegrationId(),
+      secret: process.env.WEBHOOK_SECRET || createSha(),
+      cert: process.env.PRIVATE_KEY || await createPrivateKey(),
+      port: 3000
+    };
+
     nock.disableNetConnect();
     nock.enableNetConnect('localhost:3000');
   });
@@ -73,6 +72,7 @@ describe('integration', function () {
 
   it('should create a status when a pull request is opened', done => {
     const api = arrangeApi(
+      probotOptions,
       require('./fixtures/opened/compare-commits'),
       require('./fixtures/opened/create-status')
     );
@@ -84,7 +84,7 @@ describe('integration', function () {
       done();
     });
 
-    const probot = arrangeProbot(plugin);
+    const probot = arrangeProbot(probotOptions, plugin);
 
     probot.server.on('listening', () => {
       const { method, path, headers, body } = require('./fixtures/opened/webhook-request').request;
