@@ -22,7 +22,7 @@ function throwError(message) {
 
 const probotOptions = {
   id: process.env.INTEGRATION_ID || createIntegrationId(),
-  secret: process.env.WEBHOOK_SECRET || 'development',
+  secret: process.env.WEBHOOK_SECRET || createSha(),
   cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
   port: 3000
 };
