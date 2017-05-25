@@ -41,3 +41,7 @@ jspm_packages
 
 # Local environment variables
 .env
+
+# Logs from ./scripts/nock-record
+.nock-log
+.probot-log

@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Nock Record",
+            "program": "${workspaceRoot}/scripts/nock-record"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [

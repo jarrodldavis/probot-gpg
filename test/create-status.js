@@ -19,26 +19,26 @@ describe('create-status', () => {
     expect.restoreSpies();
   });
 
-  it('should create a success status when `gpgStatus` is `true`', () => {
+  it('should create a success state when `gpgStatus` is `true`', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, true);
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
       context: 'GPG',
-      status: 'success',
+      state: 'success',
       description: 'All commits have a verified GPG signature',
       owner: 'owner',
       repo: 'repo'
     });
   });
 
-  it('should create a failure status when `gpgStatus` is `false`', () => {
+  it('should create a failure state when `gpgStatus` is `false`', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, false);
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
       context: 'GPG',
-      status: 'failure',
+      state: 'failure',
       description: 'All commits must have a verified GPG signature',
       target_url: 'https://help.github.com/articles/about-gpg/', // eslint-disable-line camelcase
       owner: 'owner',
@@ -46,13 +46,13 @@ describe('create-status', () => {
     });
   });
 
-  it('should create an error status when `gpgStatus` is not a boolean', () => {
+  it('should create an error state when `gpgStatus` is not a boolean', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, 'error');
     expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
       sha,
       context: 'GPG',
-      status: 'error',
+      state: 'error',
       description: 'An error occurred while checking the commit GPG status',
       owner: 'owner',
       repo: 'repo'

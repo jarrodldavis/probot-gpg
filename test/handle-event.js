@@ -37,7 +37,7 @@ describe('handle-event', () => {
 
     // Assert
     expect(robotMock.auth).toHaveBeenCalledWith(event.payload.installation.id);
-    expect(validateGpgSpy).toHaveBeenCalledWith(githubMock, baseSha, headSha);
+    expect(validateGpgSpy).toHaveBeenCalledWith(githubMock, contextMock, baseSha, headSha);
     expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, allCommitsVerified);
     expect(result).toBe(createStatusResult);
   }
