@@ -9,6 +9,7 @@ const Plugin = require('../lib/plugin');
 const tokenRequest = require('./fixtures/token-request');
 
 const createIntegrationJwt = require('./utils/create-integration-jwt');
+const createIntegrationId = require('./utils/create-integration-id');
 const createSha = require('./utils/create-sha');
 const createWebhookSignature = require('./utils/create-webhook-signature');
 const FixtureNockScope = require('./utils/fixture-nock-scope');
@@ -20,7 +21,7 @@ function throwError(message) {
 }
 
 const probotOptions = {
-  id: process.env.INTEGRATION_ID || throwError('Integration ID not specified.'),
+  id: process.env.INTEGRATION_ID || createIntegrationId(),
   secret: process.env.WEBHOOK_SECRET || 'development',
   cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
   port: 3000
