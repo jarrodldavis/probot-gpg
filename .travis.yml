@@ -1,7 +1,15 @@
 sudo: false
 language: node_js
 node_js:
-  - "7.7.1"
+- 7.7.1
 notifications:
   disabled: true
 after_success: npm run coverage
+deploy:
+  provider: npm
+  email: developer@jarrodldavis.com
+  api_key:
+    secure: oOskJIPKXVReB+/H97JXqgTdaAR9+tIkYiJginQwCWPHfbMI5Ho8G5k1s/J+EvHv7M/kRtMMtV59cl/w0ofkhCyG+daTUbfjcdFuYay+2JH2EwXd0x5buiB9spQxxBq+IwaNGcl3idplVt/dqtrP5PSaKwVmuwpzvkbc3dbMpzoHliXi0ScwVD7TlvRFUheHjYOmS8EEb24sft3B06SpN3cEBLaRW+gzh6xWsSH9ZxoWMf0cjGh72Chr6pa3gntZ89Ho/CwlreygIyCIpCZMnefrxtqlgPcUuiX8JRbFQCXLFAxMCR30FWYaSRksjpKaCHTvchydNOnCIOcuc5Rm3MsyNtkO4obdgWygzvuJSKa3lpL6B3q6+Qq4DViA7fV7Bm/djqQLN34ChIWXCwNSJGFW1hcMKZdUzcus7QSfwvb7g9mU0DAaY4tD3oTiom23HVnvONI+yzIB0CMpiK9iC/xMwklcB8YH6/zAvfxJNJAowudxUtk2n9hFZU32UaS2kbNa+TtT1QdhITUD8gRJXXOtEwaStyB+nRg2+T8qRpzCStWLoQTlX126GHyTN1MDxfbQZ2Z+LGcnE1WQbjyws4nt1M61x4ljU6L3YhY5BNo7XVFNiTe8HBlYwQ4QmwbIff5TRm2v5clFUs5a6rYDcLq25LhfS0r7Qp4bKOxAm+E=
+  on:
+    tags: true
+    repo: jarrodldavis/probot-gpg

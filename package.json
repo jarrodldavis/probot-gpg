@@ -2,9 +2,29 @@
   "name": "@jarrodldavis/probot-gpg",
   "version": "0.1.0",
   "description": "A GitHub Integration built with probot that enforces GPG signatures on Pull Requests",
+  "keywords": [
+    "git",
+    "pull request",
+    "github",
+    "github integration",
+    "probot",
+    "probot plugin",
+    "gpg",
+    "gpg signature"
+  ],
   "author": "Jarrod Davis <developer@jarrodldavis.com>",
   "license": "MIT",
+  "homepage": "https://github.com/jarrodldavis/probot-gpg",
+  "bugs": {
+    "url": "https://github.com/jarrodldavis/probot-gpg/issues"
+  },
   "repository": "https://github.com/jarrodldavis/probot-gpg.git",
+  "main": "index",
+  "directories": {
+    "lib": "./lib",
+    "test": "./test",
+    "doc": "./docs"
+  },
   "scripts": {
     "start": "probot run ./index.js",
     "test": "xo && nyc mocha",
