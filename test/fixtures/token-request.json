@@ -1,0 +1,43 @@
+{
+  "scope": "https://api.github.com:443",
+  "request": {
+    "method": "post",
+    "path": "/installations/25058/access_tokens",
+    "headers": {
+      "Host": "api.github.com",
+      "Content-Length": 2,
+      "content-Type": "application/json; charset=utf-8",
+      "Authorization": "",
+      "Accept": "application/vnd.github.machine-man-preview+json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 21 May 2017 23:46:00 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "91",
+      "Connection": "close",
+      "Status": "201 Created",
+      "Cache-Control": "public, max-age=60, s-maxage=60",
+      "Vary": "Accept, Accept-Encoding",
+      "ETag": "\"1adfdeeb56e9b885a956cb3dfd095970\"",
+      "X-GitHub-Media-Type": "github.machine-man-preview; format=json",
+      "Access-Control-Expose-Headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Security-Policy": "default-src 'none'",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "deny",
+      "X-XSS-Protection": "1; mode=block",
+      "X-Served-By": "a6882e5cd2513376cb9481dbcd83f3a2",
+      "X-GitHub-Request-Id": "90FB:6EB4:43EF2AF:5095AF4:592226B8"
+    },
+    "body": {
+      "token": "",
+      "expires_at": "2017-05-22T00:46:00Z"
+    }
+  }
+}

@@ -45,3 +45,13 @@ jspm_packages
 # Logs from ./scripts/nock-record
 .nock-log
 .probot-log
+
+# Other files not useful for published package
+.vscode/
+scripts/
+test/
+.env.example
+.gitignore
+.npmignore
+.travis.yml
+app.json

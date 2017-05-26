@@ -1,0 +1,71 @@
+{
+  "name": "@jarrodldavis/probot-gpg",
+  "version": "0.1.0",
+  "description": "A GitHub Integration built with probot that enforces GPG signatures on Pull Requests",
+  "keywords": [
+    "git",
+    "pull request",
+    "github",
+    "github integration",
+    "probot",
+    "probot plugin",
+    "gpg",
+    "gpg signature"
+  ],
+  "author": "Jarrod Davis <developer@jarrodldavis.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/jarrodldavis/probot-gpg",
+  "bugs": {
+    "url": "https://github.com/jarrodldavis/probot-gpg/issues"
+  },
+  "repository": "https://github.com/jarrodldavis/probot-gpg.git",
+  "main": "index",
+  "directories": {
+    "lib": "./lib",
+    "test": "./test",
+    "doc": "./docs"
+  },
+  "scripts": {
+    "start": "probot run ./index.js",
+    "test": "xo && nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "nock-record": "./scripts/nock-record",
+    "lt": "lt --port 3000"
+  },
+  "dependencies": {
+    "probot": "~0.5.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "dotenv": "^4.0.0",
+    "expect": "^1.20.2",
+    "jsonwebtoken": "^7.4.1",
+    "localtunnel": "^1.8.2",
+    "mocha": "^3.2.0",
+    "nock": "^9.0.13",
+    "node-forge": "^0.7.1",
+    "nyc": "^10.3.2",
+    "proxyquire": "^1.8.0",
+    "strip-ansi": "^3.0.1",
+    "xo": "^0.18.0"
+  },
+  "engines": {
+    "node": ">= 7.7.0",
+    "npm": ">= 4.0.0"
+  },
+  "xo": {
+    "extends": "xo/esnext",
+    "space": true,
+    "rules": {
+      "object-curly-spacing": "off"
+    },
+    "overrides": [
+      {
+        "files": "test/*.js",
+        "env": [
+          "mocha"
+        ]
+      }
+    ]
+  }
+}
