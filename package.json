@@ -1,12 +1,13 @@
 {
   "name": "@jarrodldavis/probot-gpg",
-  "version": "0.1.0",
-  "description": "A GitHub Integration built with probot that enforces GPG signatures on Pull Requests",
+  "version": "0.2.0",
+  "description": "A GitHub App built with probot that enforces GPG signatures on Pull Requests",
   "keywords": [
     "git",
     "pull request",
     "github",
     "github integration",
+    "github app",
     "probot",
     "probot plugin",
     "gpg",
@@ -33,7 +34,7 @@
     "lt": "lt --port 3000"
   },
   "dependencies": {
-    "probot": "~0.5.0"
+    "probot": "~0.7.1"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
@@ -44,9 +45,9 @@
     "mocha": "^3.2.0",
     "nock": "^9.0.13",
     "node-forge": "^0.7.1",
-    "nyc": "^10.3.2",
+    "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
-    "strip-ansi": "^3.0.1",
+    "strip-ansi": "^4.0.0",
     "xo": "^0.18.0"
   },
   "engines": {

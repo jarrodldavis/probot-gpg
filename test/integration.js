@@ -8,8 +8,8 @@ const Plugin = require('../lib/plugin');
 
 const tokenRequest = require('./fixtures/token-request');
 
-const createIntegrationJwt = require('./utils/create-integration-jwt');
-const createIntegrationId = require('./utils/create-integration-id');
+const createAppJwt = require('./utils/create-app-jwt');
+const createAppId = require('./utils/create-app-id');
 const createPrivateKey = require('./utils/create-private-key');
 const createSha = require('./utils/create-sha');
 const createWebhookSignature = require('./utils/create-webhook-signature');
@@ -26,14 +26,14 @@ function arrangeProbot(probotOptions, plugin) {
 }
 
 function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
-  const integrationJwt = createIntegrationJwt(
+  const appJwt = createAppJwt(
     new Date('2017-05-21T23:45:59.000Z'),
     probotOptions.id,
     probotOptions.cert
   );
 
   const authorizedTokenRequest = Object.assign({}, tokenRequest);
-  authorizedTokenRequest.request.headers.Authorization = 'Bearer ' + integrationJwt;
+  authorizedTokenRequest.request.headers.Authorization = 'Bearer ' + appJwt;
 
   const token = 'v1.' + createSha();
   authorizedTokenRequest.response.body.token = token;
@@ -55,7 +55,7 @@ describe('integration', function () {
 
   before(async () => {
     probotOptions = {
-      id: process.env.INTEGRATION_ID || createIntegrationId(),
+      id: process.env.APP_ID || createAppId(),
       secret: process.env.WEBHOOK_SECRET || createSha(),
       cert: process.env.PRIVATE_KEY || await createPrivateKey(),
       port: 3000
