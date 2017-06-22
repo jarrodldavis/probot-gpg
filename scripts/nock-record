@@ -42,7 +42,7 @@ process.stdout.write = (chunk, encoding, callback) => {
 };
 
 const probot = createProbot({
-  id: process.env.INTEGRATION_ID || throwError('Integration ID not specified.'),
+  id: process.env.APP_ID || throwError('App ID not specified.'),
   secret: process.env.WEBHOOK_SECRET || 'development',
   cert: process.env.PRIVATE_KEY || throwError('Private Key not specified.'),
   port: 3000
