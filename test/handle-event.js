@@ -6,7 +6,7 @@ const GitHubMock = require('./mocks/github');
 const RobotMock = require('./mocks/robot');
 
 const createSha = require('./utils/create-sha');
-const createEvent = require('./utils/create-event');
+const createPayload = require('./utils/create-payload');
 
 function arrangeHandler(validateGpg, createStatus) {
   return proxyquire('../lib/handle-event', {
@@ -28,15 +28,15 @@ describe('handle-event', () => {
     expect.spyOn(robotMock, 'auth').andCallThrough();
 
     const [baseSha, headSha] = [createSha(), createSha()];
-    const event = createEvent(baseSha, headSha);
+    const payload = createPayload(baseSha, headSha);
 
-    const contextMock = new ContextMock();
+    const contextMock = new ContextMock(payload);
 
     // Act
-    const result = await handlerUnderTest(robotMock, event, contextMock);
+    const result = await handlerUnderTest(robotMock, contextMock);
 
     // Assert
-    expect(robotMock.auth).toHaveBeenCalledWith(event.payload.installation.id);
+    expect(robotMock.auth).toHaveBeenCalledWith(payload.installation.id);
     expect(validateGpgSpy).toHaveBeenCalledWith(githubMock, contextMock, baseSha, headSha);
     expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, allCommitsVerified);
     expect(result).toBe(createStatusResult);

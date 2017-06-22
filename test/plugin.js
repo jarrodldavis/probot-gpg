@@ -12,8 +12,7 @@ function arrange(handleEventSpy) {
   return {
     plugin: new Plugin(),
     robotMock: new RobotMock(new GitHubMock()),
-    contextMock: new ContextMock(),
-    event: { action: 'test' }
+    contextMock: new ContextMock()
   };
 }
 
@@ -21,19 +20,19 @@ describe('plugin', () => {
   it('should load correctly', async () => {
     // Arrange
     const handleEventSpy = expect.createSpy();
-    const { plugin, robotMock, contextMock, event } = arrange(handleEventSpy);
+    const { plugin, robotMock, contextMock } = arrange(handleEventSpy);
 
     // Act
     plugin.load(robotMock);
-    await plugin.acceptEvent(event, contextMock);
+    await plugin.acceptEvent(contextMock);
 
     // Assert
-    expect(handleEventSpy).toHaveBeenCalledWith(robotMock, event, contextMock);
+    expect(handleEventSpy).toHaveBeenCalledWith(robotMock, contextMock);
   });
 
   it('should emit event-handled event when event is handled successfully', async () => {
     // Arrange
-    const { plugin, robotMock, contextMock, event } = arrange(expect.createSpy());
+    const { plugin, robotMock, contextMock } = arrange(expect.createSpy());
 
     plugin.load(robotMock);
 
@@ -41,7 +40,7 @@ describe('plugin', () => {
     plugin.on('event-handled', finishedEventSpy);
 
     // Act
-    await plugin.acceptEvent(event, contextMock);
+    await plugin.acceptEvent(contextMock);
 
     // Assert
     expect(finishedEventSpy).toHaveBeenCalled();
@@ -50,7 +49,7 @@ describe('plugin', () => {
   it('should emit error event when event handler fails', async () => {
     // Arrange
     const handleEventSpy = expect.createSpy().andThrow(new Error('Something happened'));
-    const { plugin, robotMock, contextMock, event } = arrange(handleEventSpy);
+    const { plugin, robotMock, contextMock } = arrange(handleEventSpy);
 
     plugin.load(robotMock);
 
@@ -58,7 +57,7 @@ describe('plugin', () => {
     plugin.on('error', errorEventSpy);
 
     // Act
-    await plugin.acceptEvent(event, contextMock);
+    await plugin.acceptEvent(contextMock);
 
     // Assert
     expect(errorEventSpy).toHaveBeenCalled();
@@ -81,13 +80,13 @@ describe('plugin', () => {
 
   it('should emmit error event if events are given before loading', async () => {
     // Arrange
-    const { plugin, contextMock, event } = arrange(expect.createSpy());
+    const { plugin, contextMock } = arrange(expect.createSpy());
 
     const errorEventSpy = expect.createSpy();
     plugin.on('error', errorEventSpy);
 
     // Act
-    await plugin.acceptEvent(event, contextMock);
+    await plugin.acceptEvent(contextMock);
 
     // Assert
     expect(errorEventSpy).toHaveBeenCalled();
@@ -104,7 +103,7 @@ describe('plugin', () => {
 
   it('should throw if `acceptEvent` is called with incorrect execution context', async () => {
     // Arrange
-    const { plugin, robotMock, contextMock, event } = arrange(expect.createSpy());
+    const { plugin, robotMock, contextMock } = arrange(expect.createSpy());
 
     const errorEventSpy = expect.createSpy();
     plugin.on('error', errorEventSpy);
@@ -113,7 +112,7 @@ describe('plugin', () => {
 
     // Act, Assert
     try {
-      await plugin.acceptEvent.call(event, contextMock);
+      await plugin.acceptEvent.call(contextMock);
     } catch (err) {
       expect(err.message).toBe('Unexpected execution context for method call');
       return;
