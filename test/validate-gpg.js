@@ -12,7 +12,7 @@ describe('validate-gpg', () => {
     const githubMock = new GitHubMock();
 
     expect.spyOn(githubMock.repos, 'compareCommits').andReturn(Promise.resolve({
-      commits: [headCommit, middleCommit, baseCommit]
+      data: { commits: [headCommit, middleCommit, baseCommit] }
     }));
 
     return validateGpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
