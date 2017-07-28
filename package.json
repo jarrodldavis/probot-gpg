@@ -34,7 +34,7 @@
     "lt": "lt --port 3000"
   },
   "dependencies": {
-    "probot": "~0.7.4"
+    "probot": "~0.8.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
