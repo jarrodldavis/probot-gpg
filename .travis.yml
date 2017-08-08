@@ -1,8 +1,7 @@
-dist: precise
 sudo: false
 language: node_js
 node_js:
-- 8.2.1
+- 7.7.1
 notifications:
   disabled: true
 after_success: npm run coverage
