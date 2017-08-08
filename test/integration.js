@@ -49,7 +49,7 @@ function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
 // eslint-disable-next-line prefer-arrow-callback
 describe('integration', function () {
   this.slow(3000);
-  this.timeout(5000);
+  this.timeout(10000);
 
   let probotOptions = null;
 
