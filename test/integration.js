@@ -17,14 +17,6 @@ const FixtureNockScope = require('./utils/fixture-nock-scope');
 
 const apiScope = 'https://api.github.com:443';
 
-function arrangeProbot(probotOptions, plugin) {
-  const probot = createProbot(probotOptions);
-
-  probot.load(plugin.load.bind(plugin));
-
-  return probot;
-}
-
 function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
   const appJwt = createAppJwt(
     new Date('2017-05-21T23:45:59.000Z'),
@@ -84,9 +76,9 @@ describe('integration', function () {
       done();
     });
 
-    const probot = arrangeProbot(probotOptions, plugin);
+    const probot = createProbot(probotOptions);
 
-    probot.server.on('listening', () => {
+    plugin.on('loaded', () => {
       const { method, path, headers, body } = require('./fixtures/opened/webhook-request').request;
       headers['X-Hub-Signature'] = createWebhookSignature(probotOptions.secret, body);
       const req = http.request({
@@ -104,5 +96,6 @@ describe('integration', function () {
     });
 
     probot.start();
+    probot.load(plugin.load.bind(plugin));
   });
 });
