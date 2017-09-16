@@ -1,4 +1,4 @@
-const expect = require('expect');
+const sinon = require('sinon');
 
 const createStatus = require('../lib/create-status');
 
@@ -12,17 +12,17 @@ const githubMock = new GitHubMock();
 
 describe('create-status', () => {
   beforeEach(() => {
-    expect.spyOn(githubMock.repos, 'createStatus');
+    sinon.spy(githubMock.repos, 'createStatus');
   });
 
   afterEach(() => {
-    expect.restoreSpies();
+    githubMock.repos.createStatus.restore();
   });
 
   it('should create a success state when `gpgStatus` is `true`', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, true);
-    expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
+    sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'success',
@@ -35,7 +35,7 @@ describe('create-status', () => {
   it('should create a failure state when `gpgStatus` is `false`', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, false);
-    expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
+    sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'failure',
@@ -49,7 +49,7 @@ describe('create-status', () => {
   it('should create an error state when `gpgStatus` is not a boolean', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, 'error');
-    expect(githubMock.repos.createStatus).toHaveBeenCalledWith({
+    sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'error',
