@@ -1,4 +1,5 @@
-const expect = require('expect');
+const assert = require('assert');
+const sinon = require('sinon');
 const validateGpg = require('../lib/validate-gpg');
 
 const GitHubMock = require('./mocks/github');
@@ -11,23 +12,23 @@ describe('validate-gpg', () => {
     const [baseCommit, middleCommit, headCommit] = [baseVerified, middleVerified, headVerified].map(createCommit);
     const githubMock = new GitHubMock();
 
-    expect.spyOn(githubMock.repos, 'compareCommits').andReturn(Promise.resolve({
+    sinon.stub(githubMock.repos, 'compareCommits').resolves({
       data: { commits: [headCommit, middleCommit, baseCommit] }
-    }));
+    });
 
     return validateGpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
   }
 
   it('should return true if all of the commits have a verified GPG signature', () => {
-    return testScenario(true, true, true).then(result => expect(result).toBe(true));
+    return testScenario(true, true, true).then(result => assert.equal(result, true));
   });
 
   it('should return false if all of the commits have an invalid GPG signature', () => {
-    return testScenario(false, false, false).then(result => expect(result).toBe(false));
+    return testScenario(false, false, false).then(result => assert.equal(result, false));
   });
 
   it('should return false if one, but not all, of the commits has an invalid GPG signature', async () => {
-    return testScenario(true, false, true).then(result => expect(result).toBe(false));
+    return testScenario(true, false, true).then(result => assert.equal(result, false));
   });
 
   it('should throw if a commit does not have GPG signature information', () => {
@@ -35,7 +36,7 @@ describe('validate-gpg', () => {
       .catch(err => err)
       .then(result => {
         if (result instanceof Error) {
-          expect(result.message).toBe('The verification status of the commit cannot be determined');
+          assert.equal(result.message, 'The verification status of the commit cannot be determined');
         } else {
           throw new TypeError('Expected error, got success result.');
         }
