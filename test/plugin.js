@@ -1,4 +1,5 @@
-const expect = require('expect');
+const assert = require('assert');
+const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const ContextMock = require('./mocks/context');
@@ -19,7 +20,7 @@ function arrange(handleEventSpy) {
 describe('plugin', () => {
   it('should load correctly', async () => {
     // Arrange
-    const handleEventSpy = expect.createSpy();
+    const handleEventSpy = sinon.spy();
     const { plugin, robotMock, contextMock } = arrange(handleEventSpy);
 
     // Act
@@ -27,47 +28,46 @@ describe('plugin', () => {
     await plugin.acceptEvent(contextMock);
 
     // Assert
-    expect(handleEventSpy).toHaveBeenCalledWith(robotMock, contextMock);
+    sinon.assert.calledWith(handleEventSpy, robotMock, contextMock);
   });
 
   it('should emit event-handled event when event is handled successfully', async () => {
     // Arrange
-    const { plugin, robotMock, contextMock } = arrange(expect.createSpy());
+    const { plugin, robotMock, contextMock } = arrange(sinon.stub());
 
     plugin.load(robotMock);
 
-    const finishedEventSpy = expect.createSpy();
+    const finishedEventSpy = sinon.spy();
     plugin.on('event-handled', finishedEventSpy);
 
     // Act
     await plugin.acceptEvent(contextMock);
 
     // Assert
-    expect(finishedEventSpy).toHaveBeenCalled();
+    sinon.assert.calledOnce(finishedEventSpy);
   });
 
   it('should emit error event when event handler fails', async () => {
     // Arrange
-    const handleEventSpy = expect.createSpy().andThrow(new Error('Something happened'));
-    const { plugin, robotMock, contextMock } = arrange(handleEventSpy);
+    const { plugin, robotMock, contextMock } = arrange(sinon.stub().throws());
 
     plugin.load(robotMock);
 
-    const errorEventSpy = expect.createSpy();
+    const errorEventSpy = sinon.spy();
     plugin.on('error', errorEventSpy);
 
     // Act
     await plugin.acceptEvent(contextMock);
 
     // Assert
-    expect(errorEventSpy).toHaveBeenCalled();
+    sinon.assert.calledOnce(errorEventSpy);
   });
 
   it('should emit error event if loaded more than once', () => {
     // Arrange
-    const { plugin, robotMock } = arrange(expect.createSpy());
+    const { plugin, robotMock } = arrange(sinon.stub());
 
-    const errorEventSpy = expect.createSpy();
+    const errorEventSpy = sinon.spy();
     plugin.on('error', errorEventSpy);
 
     // Act
@@ -75,38 +75,36 @@ describe('plugin', () => {
     plugin.load(robotMock);
 
     // Assert
-    expect(errorEventSpy).toHaveBeenCalled();
+    sinon.assert.calledOnce(errorEventSpy);
   });
 
   it('should emmit error event if events are given before loading', async () => {
     // Arrange
-    const { plugin, contextMock } = arrange(expect.createSpy());
+    const { plugin, contextMock } = arrange(sinon.stub());
 
-    const errorEventSpy = expect.createSpy();
+    const errorEventSpy = sinon.spy();
     plugin.on('error', errorEventSpy);
 
     // Act
     await plugin.acceptEvent(contextMock);
 
     // Assert
-    expect(errorEventSpy).toHaveBeenCalled();
+    sinon.assert.calledOnce(errorEventSpy);
   });
 
   it('should throw if `load` is called with incorrect execution context', () => {
     // Arrange
-    const { plugin, robotMock } = arrange(expect.createSpy());
+    const { plugin, robotMock } = arrange(sinon.stub());
 
     // Act, Assert
-    expect(() => plugin.load.call(undefined, robotMock))
-      .toThrow('Unexpected execution context for method call');
+    assert.throws(() => plugin.load.call(undefined, robotMock));
   });
 
   it('should throw if `acceptEvent` is called with incorrect execution context', async () => {
     // Arrange
-    const { plugin, robotMock, contextMock } = arrange(expect.createSpy());
+    const { plugin, robotMock, contextMock } = arrange(sinon.stub());
 
-    const errorEventSpy = expect.createSpy();
-    plugin.on('error', errorEventSpy);
+    plugin.on('error', sinon.stub());
 
     plugin.load(robotMock);
 
@@ -114,7 +112,7 @@ describe('plugin', () => {
     try {
       await plugin.acceptEvent.call(contextMock);
     } catch (err) {
-      expect(err.message).toBe('Unexpected execution context for method call');
+      assert.equal(err.message, 'Unexpected execution context for method call');
       return;
     }
 
