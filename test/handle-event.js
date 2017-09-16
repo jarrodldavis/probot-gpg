@@ -1,4 +1,5 @@
-const expect = require('expect');
+const assert = require('assert');
+const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const ContextMock = require('./mocks/context');
@@ -19,13 +20,13 @@ describe('handle-event', () => {
   async function testScenario(validateGpgSpy, allCommitsVerified, statusState) {
     // Arrange
     const createStatusResult = { state: statusState };
-    const createStatusSpy = expect.createSpy().andReturn(Promise.resolve(createStatusResult));
+    const createStatusSpy = sinon.stub().resolves(createStatusResult);
 
     const handlerUnderTest = arrangeHandler(validateGpgSpy, createStatusSpy);
 
     const githubMock = new GitHubMock();
     const robotMock = new RobotMock(githubMock);
-    expect.spyOn(robotMock, 'auth').andCallThrough();
+    sinon.spy(robotMock, 'auth');
 
     const [baseSha, headSha] = [createSha(), createSha()];
     const payload = createPayload(baseSha, headSha);
@@ -36,25 +37,25 @@ describe('handle-event', () => {
     const result = await handlerUnderTest(robotMock, contextMock);
 
     // Assert
-    expect(robotMock.auth).toHaveBeenCalledWith(payload.installation.id);
-    expect(validateGpgSpy).toHaveBeenCalledWith(githubMock, contextMock, baseSha, headSha);
-    expect(createStatusSpy).toHaveBeenCalledWith(githubMock, contextMock, headSha, allCommitsVerified);
-    expect(result).toBe(createStatusResult);
+    sinon.assert.calledWith(robotMock.auth, payload.installation.id);
+    sinon.assert.calledWith(validateGpgSpy, githubMock, contextMock, baseSha, headSha);
+    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, headSha, allCommitsVerified);
+    assert.equal(result, createStatusResult);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
-    const validateGpgSpy = expect.createSpy().andReturn(true);
+    const validateGpgSpy = sinon.stub().returns(true);
     await testScenario(validateGpgSpy, true, 'success');
   });
 
   it('should orchestrate correctly when all commits are not verified', async () => {
-    const validateGpgSpy = expect.createSpy().andReturn(false);
+    const validateGpgSpy = sinon.stub().returns(false);
     await testScenario(validateGpgSpy, false, 'failure');
   });
 
   it('should orchestrate correctly when GPG verification check fails', async () => {
     const err = new Error('The verification status of the commit cannot be determined');
-    const validateGpgSpy = expect.createSpy().andThrow(err);
+    const validateGpgSpy = sinon.stub().throws(err);
     await testScenario(validateGpgSpy, 'error', 'error');
   });
 });
