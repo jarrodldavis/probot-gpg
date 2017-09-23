@@ -1,4 +1,4 @@
-# probot-gpg
+# Probot GPG
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
