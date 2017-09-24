@@ -20,7 +20,7 @@ npm start
 
 ## Usage
 
-[Configure this app](https://github.com/apps/probot-gpg) on your organizations and repositories. Be sure to enable [required status checks](https://help.github.com/articles/about-required-status-checks/) if you want to enforce GPG signatures on all pull requests.
+[Configure this app](https://github.com/apps/gpg) on your organizations and repositories. Be sure to enable [required status checks](https://help.github.com/articles/about-required-status-checks/) if you want to enforce GPG signatures on all pull requests.
 
 See [docs/deploy.md](docs/deploy.md) if you would like to run your own instance of this plugin.
 
@@ -50,3 +50,4 @@ Otherwise, the app will set the status to `failed`.
 - [GitHub Blog: GPG signature verification](https://github.com/blog/2144-gpg-signature-verification)
 - [GitHub Developer: Preview support for Git signing](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/)
 - [The GNU Privacy Guard](https://gnupg.org)
+- [Setting up Git commit signing on macOS](https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b)
