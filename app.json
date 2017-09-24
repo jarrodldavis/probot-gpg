@@ -1,4 +1,20 @@
 {
+  "name": "Probot GPG",
+  "description": "A GitHub App that enforces GPG signatures on Pull Requests",
+  "keywords": [
+    "git",
+    "pull request",
+    "github",
+    "github integration",
+    "github app",
+    "probot",
+    "probot plugin",
+    "probot app",
+    "gpg",
+    "gpg signature"
+  ],
+  "website": "https://github.com/jarrodldavis/probot-gpg",
+  "repository": "https://github.com/jarrodldavis/probot-gpg",
   "env": {
     "PRIVATE_KEY": {
       "description": "the private key you downloaded when creating the GitHub App"
@@ -8,6 +24,16 @@
     },
     "WEBHOOK_SECRET": {
       "description": "the secret configured for your GitHub App"
+    },
+    "SENTRY_DSN": {
+      "description": "the Sentry Data Source Name (DSN) used to configure the Sentry SDK",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
     }
   }
 }
