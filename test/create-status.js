@@ -7,8 +7,19 @@ const GitHubMock = require('./mocks/github');
 
 const createSha = require('./utils/create-sha');
 
-const contextMock = new ContextMock();
 const githubMock = new GitHubMock();
+
+function arrange() {
+  const sha = createSha();
+  const contextMock = new ContextMock({
+    pull_request: { // eslint-disable-line camelcase
+      head: {
+        sha
+      }
+    }
+  });
+  return { contextMock, sha };
+}
 
 describe('create-status', () => {
   beforeEach(() => {
@@ -20,8 +31,8 @@ describe('create-status', () => {
   });
 
   it('should create a success state when `gpgStatus` is "success"', () => {
-    const sha = createSha();
-    createStatus(githubMock, contextMock, sha, 'success');
+    const { sha, contextMock } = arrange();
+    createStatus(githubMock, contextMock, 'success');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -33,8 +44,8 @@ describe('create-status', () => {
   });
 
   it('should create a failure state when `gpgStatus` is "failure"', () => {
-    const sha = createSha();
-    createStatus(githubMock, contextMock, sha, 'failure');
+    const { sha, contextMock } = arrange();
+    createStatus(githubMock, contextMock, 'failure');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -47,8 +58,8 @@ describe('create-status', () => {
   });
 
   it('should create an error state when `gpgStatus` is "error"', () => {
-    const sha = createSha();
-    createStatus(githubMock, contextMock, sha, 'error');
+    const { sha, contextMock } = arrange();
+    createStatus(githubMock, contextMock, 'error');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -60,8 +71,8 @@ describe('create-status', () => {
   });
 
   it('should create an error state when `gpgStatus` is unexpected', () => {
-    const sha = createSha();
-    createStatus(githubMock, contextMock, sha, 42);
+    const { sha, contextMock } = arrange();
+    createStatus(githubMock, contextMock, 42);
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',

@@ -39,7 +39,7 @@ describe('handle-event', () => {
     // Assert
     sinon.assert.calledWith(robotMock.auth, payload.installation.id);
     sinon.assert.calledWith(validateGpgSpy, githubMock, contextMock, baseSha, headSha);
-    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, headSha, status);
+    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, status);
     assert.equal(result, createStatusResult);
   }
 
