@@ -19,27 +19,19 @@ describe('validate-gpg', () => {
     return validateGpg(githubMock, new ContextMock(), baseCommit.commit.sha, headCommit.commit.sha);
   }
 
-  it('should return true if all of the commits have a verified GPG signature', () => {
-    return testScenario(true, true, true).then(result => assert.equal(result, true));
+  it('should return "success" if all of the commits have a verified GPG signature', () => {
+    return testScenario(true, true, true).then(result => assert.equal(result, 'success'));
   });
 
-  it('should return false if all of the commits have an invalid GPG signature', () => {
-    return testScenario(false, false, false).then(result => assert.equal(result, false));
+  it('should return "failure" if all of the commits have an invalid GPG signature', () => {
+    return testScenario(false, false, false).then(result => assert.equal(result, 'failure'));
   });
 
-  it('should return false if one, but not all, of the commits has an invalid GPG signature', async () => {
-    return testScenario(true, false, true).then(result => assert.equal(result, false));
+  it('should return "failure" if one, but not all, of the commits has an invalid GPG signature', async () => {
+    return testScenario(true, false, true).then(result => assert.equal(result, 'failure'));
   });
 
-  it('should throw if a commit does not have GPG signature information', () => {
-    return testScenario(true, 'error', true)
-      .catch(err => err)
-      .then(result => {
-        if (result instanceof Error) {
-          assert.equal(result.message, 'The verification status of the commit cannot be determined');
-        } else {
-          throw new TypeError('Expected error, got success result.');
-        }
-      });
+  it('should return "error" if a commit does not have GPG signature information', () => {
+    return testScenario(true, 'error', true).then(result => assert.equal(result, 'error'));
   });
 });

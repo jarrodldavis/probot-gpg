@@ -17,9 +17,9 @@ function arrangeHandler(validateGpg, createStatus) {
 }
 
 describe('handle-event', () => {
-  async function testScenario(validateGpgSpy, allCommitsVerified, statusState) {
+  async function testScenario(validateGpgSpy, status) {
     // Arrange
-    const createStatusResult = { state: statusState };
+    const createStatusResult = { state: status };
     const createStatusSpy = sinon.stub().resolves(createStatusResult);
 
     const handlerUnderTest = arrangeHandler(validateGpgSpy, createStatusSpy);
@@ -39,23 +39,28 @@ describe('handle-event', () => {
     // Assert
     sinon.assert.calledWith(robotMock.auth, payload.installation.id);
     sinon.assert.calledWith(validateGpgSpy, githubMock, contextMock, baseSha, headSha);
-    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, headSha, allCommitsVerified);
+    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, headSha, status);
     assert.equal(result, createStatusResult);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
-    const validateGpgSpy = sinon.stub().returns(true);
-    await testScenario(validateGpgSpy, true, 'success');
+    const validateGpgSpy = sinon.stub().returns('success');
+    await testScenario(validateGpgSpy, 'success');
   });
 
   it('should orchestrate correctly when all commits are not verified', async () => {
-    const validateGpgSpy = sinon.stub().returns(false);
-    await testScenario(validateGpgSpy, false, 'failure');
+    const validateGpgSpy = sinon.stub().returns('failure');
+    await testScenario(validateGpgSpy, 'failure');
   });
 
-  it('should orchestrate correctly when GPG verification check fails', async () => {
+  it('should orchestrate correctly when GPG verification check returns an error', async () => {
+    const validateGpgSpy = sinon.stub().returns('error');
+    await testScenario(validateGpgSpy, 'error');
+  });
+
+  it('should orchestrate correctly when GPG verification check throws an error', async () => {
     const err = new Error('The verification status of the commit cannot be determined');
     const validateGpgSpy = sinon.stub().throws(err);
-    await testScenario(validateGpgSpy, 'error', 'error');
+    await testScenario(validateGpgSpy, 'error');
   });
 });

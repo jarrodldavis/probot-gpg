@@ -19,9 +19,9 @@ describe('create-status', () => {
     githubMock.repos.createStatus.restore();
   });
 
-  it('should create a success state when `gpgStatus` is `true`', () => {
+  it('should create a success state when `gpgStatus` is "success"', () => {
     const sha = createSha();
-    createStatus(githubMock, contextMock, sha, true);
+    createStatus(githubMock, contextMock, sha, 'success');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -32,9 +32,9 @@ describe('create-status', () => {
     });
   });
 
-  it('should create a failure state when `gpgStatus` is `false`', () => {
+  it('should create a failure state when `gpgStatus` is "failure"', () => {
     const sha = createSha();
-    createStatus(githubMock, contextMock, sha, false);
+    createStatus(githubMock, contextMock, sha, 'failure');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -46,9 +46,22 @@ describe('create-status', () => {
     });
   });
 
-  it('should create an error state when `gpgStatus` is not a boolean', () => {
+  it('should create an error state when `gpgStatus` is "error"', () => {
     const sha = createSha();
     createStatus(githubMock, contextMock, sha, 'error');
+    sinon.assert.calledWith(githubMock.repos.createStatus, {
+      sha,
+      context: 'GPG',
+      state: 'error',
+      description: 'An error occurred while checking the commit GPG status',
+      owner: 'owner',
+      repo: 'repo'
+    });
+  });
+
+  it('should create an error state when `gpgStatus` is unexpected', () => {
+    const sha = createSha();
+    createStatus(githubMock, contextMock, sha, 42);
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
