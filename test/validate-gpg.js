@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assertive');
 const sinon = require('sinon');
 const validateGpg = require('../lib/validate-gpg');
 
