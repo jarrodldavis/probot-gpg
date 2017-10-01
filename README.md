@@ -1,4 +1,10 @@
-# Probot GPG <img src="docs/logo.png" alt="Probot GPG Logo" height="25" width="25">
+<div style="text-align: center;">
+
+![Probot GPG Logo](docs/logo.png)
+
+# Probot GPG
+
+</div>
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
