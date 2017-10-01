@@ -1,8 +1,8 @@
-<div style="text-align: center;">
+<p align="center">
+  <img alt="Probot GPG Logo" src="docs/logo.png" />
+</p>
 
-![Probot GPG Logo](docs/logo.png)
-
-# Probot GPG
+<h1 align="center">Probot GPG</h1>
 
 </div>
 
