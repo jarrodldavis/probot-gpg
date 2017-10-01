@@ -39,14 +39,14 @@ Git supports [signing commits with GPG keys](https://git-scm.com/book/en/v2/Git-
 
 GitHub supports [verifying GPG signatures on commits](https://github.com/blog/2144-gpg-signature-verification) and has an excellent [series of help articles](https://help.github.com/articles/signing-commits-with-gpg/) for creating a GPG key, using it with `git` locally, and linking it to your GitHub account.
 
-After installation, this app [checks all commits](https://developer.github.com/v3/repos/commits/#compare-two-commits) of new (or newly updated) pull requests for valid GPG signatures [according to the GitHub API](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/). Note that for the status check to pass, _every_ contributor of a pull request must:
+After installation, this app [checks all commits](https://developer.github.com/v3/repos/commits/#compare-two-commits) of new (or newly updated) pull requests for valid GPG signatures [according to the GitHub API](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/). Note that for the status check to be `success`, _every_ contributor of a pull request must:
 - set up a GPG key on their local machine
 - sign _all_ of their commits in the pull request with that key
 - link that key with their GitHub account
 
 ![GPG status check success screenshot](docs/screenshot-success.png "GPG status check success screenshot")
 
-Otherwise, the app will set the status to `failed`.
+Otherwise, the app will set the status to `failure`.
 
 ![GPG status check failed screenshot](docs/screenshot-failure.png "GPG status check failed screenshot")
 
