@@ -109,13 +109,7 @@ describe('plugin', () => {
     plugin.load(robotMock);
 
     // Act, Assert
-    try {
-      await plugin.acceptEvent.call(contextMock);
-    } catch (err) {
-      assert.equal(err.message, 'Unexpected execution context for method call');
-      return;
-    }
-
-    throw new Error('Expected `acceptEvent` to throw');
+    const err = await assert.rejects(plugin.acceptEvent.call(undefined, contextMock));
+    assert.equal(err.message, 'Unexpected execution context for method call');
   });
 });
