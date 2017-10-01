@@ -1,11 +1,11 @@
 <p align="center">
-  <img alt="Probot GPG Logo" src="docs/logo-key.png" />
+  <img alt="Probot GPG logo" src="docs/logo-key.png" height="256" width="256" />
 </p>
 
 <h1 align="center">Probot GPG</h1>
 
 <p align="center">
-  <img src="docs/probot-head.png" height="50" width="50" />
+  <img alt="Probot Head logo" src="docs/probot-head.png" height="50" width="50" />
 </p>
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
@@ -44,11 +44,11 @@ After installation, this app [checks all commits](https://developer.github.com/v
 - sign _all_ of their commits in the pull request with that key
 - link that key with their GitHub account
 
-![GPG Status Check Success](docs/screenshot-success.png "GPG Status Check Success")
+![GPG status check success screenshot](docs/screenshot-success.png "GPG status check success screenshot")
 
 Otherwise, the app will set the status to `failed`.
 
-![GPG Status Check Failed](docs/screenshot-failure.png "GPG Status Check Failed")
+![GPG status check failed screenshot](docs/screenshot-failure.png "GPG status check failed screenshot")
 
 ## Further reading
 
