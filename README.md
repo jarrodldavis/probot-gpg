@@ -1,4 +1,12 @@
-# Probot GPG
+<p align="center">
+  <img alt="Probot GPG Logo" src="docs/logo-key.png" />
+</p>
+
+<h1 align="center">Probot GPG</h1>
+
+<p align="center">
+  <img src="docs/probot-head.png" height="50" width="50" />
+</p>
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
@@ -36,11 +44,11 @@ After installation, this app [checks all commits](https://developer.github.com/v
 - sign _all_ of their commits in the pull request with that key
 - link that key with their GitHub account
 
-![GPG Status Check Success](https://user-images.githubusercontent.com/235875/30783301-3b314432-a106-11e7-8e15-68ef7584f076.png "GPG Status Check Success")
+![GPG Status Check Success](docs/screenshot-success.png "GPG Status Check Success")
 
 Otherwise, the app will set the status to `failed`.
 
-![GPG Status Check Failed](https://user-images.githubusercontent.com/235875/30783306-54c68524-a106-11e7-89b4-78bf126d3008.png "GPG Status Check Failed")
+![GPG Status Check Failed](docs/screenshot-failure.png "GPG Status Check Failed")
 
 ## Further reading
 
@@ -51,3 +59,8 @@ Otherwise, the app will set the status to `failed`.
 - [GitHub Developer: Preview support for Git signing](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/)
 - [The GNU Privacy Guard](https://gnupg.org)
 - [Setting up Git commit signing on macOS](https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b)
+
+## Special Thanks and Attributions
+
+- [@JasonEtco](https://github.com/jasonetco) for the lovingly crafted logo
+- [@probot](https://github.com/probot) for the Probot head, which was found on [wikimedia.org](https://commons.wikimedia.org/wiki/File:Robot-clip-art-book-covers-feJCV3-clipart.png) and is from clipartkid.com, licensed [CC BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
