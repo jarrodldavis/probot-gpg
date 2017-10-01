@@ -54,4 +54,4 @@ Otherwise, the app will set the status to `failed`.
 
 ## Special Thanks
 
-- @JasonEtco for the lovingly crafted logo
+- [@JasonEtco](https://github.com/jasonetco) for the lovingly crafted logo
