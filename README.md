@@ -4,7 +4,9 @@
 
 <h1 align="center">Probot GPG</h1>
 
-</div>
+<p align="center">
+  <img src="docs/probot-head.png" height="50" width="50" />
+</p>
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
@@ -58,6 +60,7 @@ Otherwise, the app will set the status to `failed`.
 - [The GNU Privacy Guard](https://gnupg.org)
 - [Setting up Git commit signing on macOS](https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b)
 
-## Special Thanks
+## Special Thanks and Attributions
 
 - [@JasonEtco](https://github.com/jasonetco) for the lovingly crafted logo
+- [@probot](https://github.com/probot) for the Probot head, which was found on [wikimedia.org](https://commons.wikimedia.org/wiki/File:Robot-clip-art-book-covers-feJCV3-clipart.png) is from clipartkid.com
