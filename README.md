@@ -1,4 +1,4 @@
-# Probot GPG
+# Probot GPG <img src="docs/logo.png" alt="Probot GPG Logo" height="25" width="25">
 
 > A GitHub App built with [probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
@@ -51,3 +51,7 @@ Otherwise, the app will set the status to `failed`.
 - [GitHub Developer: Preview support for Git signing](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/)
 - [The GNU Privacy Guard](https://gnupg.org)
 - [Setting up Git commit signing on macOS](https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b)
+
+## Special Thanks
+
+- @JasonEtco for the lovingly crafted logo
