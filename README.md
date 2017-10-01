@@ -63,4 +63,4 @@ Otherwise, the app will set the status to `failed`.
 ## Special Thanks and Attributions
 
 - [@JasonEtco](https://github.com/jasonetco) for the lovingly crafted logo
-- [@probot](https://github.com/probot) for the Probot head, which was found on [wikimedia.org](https://commons.wikimedia.org/wiki/File:Robot-clip-art-book-covers-feJCV3-clipart.png) is from clipartkid.com
+- [@probot](https://github.com/probot) for the Probot head, which was found on [wikimedia.org](https://commons.wikimedia.org/wiki/File:Robot-clip-art-book-covers-feJCV3-clipart.png) is from clipartkid.com, licensed [CC BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
