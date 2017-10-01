@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Probot GPG Logo" src="docs/logo.png" />
+  <img alt="Probot GPG Logo" src="docs/logo-key.png" />
 </p>
 
 <h1 align="center">Probot GPG</h1>
