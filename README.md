@@ -10,10 +10,10 @@
 
 > A GitHub App built with [Probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
 
-[![Build Status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg)
-[![Coverage Status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg)
-[![NSP Status](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac/badge)](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac)
-[![Greenkeeper Status](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/)
+[![Build status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg)
+[![Coverage status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg)
+[![NSP status](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac/badge)](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac)
+[![Greenkeeper status](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/)
 [![npm](https://img.shields.io/npm/v/@jarrodldavis/probot-gpg.svg)](https://www.npmjs.com/package/@jarrodldavis/probot-gpg)
 
 ## Setup
@@ -60,7 +60,7 @@ Otherwise, the app will set the status to `failed`.
 - [The GNU Privacy Guard](https://gnupg.org)
 - [Setting up Git commit signing on macOS](https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b)
 
-## Special Thanks and Attributions
+## Special thanks and attributions
 
 - [@JasonEtco](https://github.com/jasonetco) for the lovingly crafted logo
 - [@probot](https://github.com/probot) for the Probot head, which was found on [wikimedia.org](https://commons.wikimedia.org/wiki/File:Robot-clip-art-book-covers-feJCV3-clipart.png) and is from clipartkid.com, licensed [CC BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
