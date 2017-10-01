@@ -32,7 +32,6 @@ npm start
 
 See [docs/deploy.md](docs/deploy.md) if you would like to run your own instance of this plugin.
 
-
 ## How it works
 
 Git supports [signing commits with GPG keys](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work) to verify commit authorship beyond the easy-to-forge [author](https://git-scm.com/docs/git-commit#git-commit---authorltauthorgt) field.
