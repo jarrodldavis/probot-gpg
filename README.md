@@ -8,7 +8,7 @@
   <img alt="Probot Head logo" src="docs/probot-head.png" height="50" width="50" />
 </p>
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that enforces GPG signatures on Pull Requests
+> A GitHub App built with [Probot](https://github.com/probot/probot) that enforces GPG signatures on pull requests
 
 [![Build status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg)
 [![Coverage status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg)
