@@ -97,7 +97,8 @@ describe('plugin', () => {
     const { plugin, robotMock } = arrange(sinon.stub());
 
     // Act, Assert
-    assert.throws(() => plugin.load.call(undefined, robotMock));
+    const err = assert.throws(() => plugin.load.call(undefined, robotMock));
+    assert.equal('Unexpected execution context for method call', err.message);
   });
 
   it('should throw if `acceptEvent` is called with incorrect execution context', async () => {
