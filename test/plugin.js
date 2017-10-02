@@ -110,6 +110,6 @@ describe('plugin', () => {
 
     // Act, Assert
     const err = await assert.rejects(plugin.acceptEvent.call(undefined, contextMock));
-    assert.equal(err.message, 'Unexpected execution context for method call');
+    assert.equal('Unexpected execution context for method call', err.message);
   });
 });

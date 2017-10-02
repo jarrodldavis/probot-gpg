@@ -40,7 +40,7 @@ describe('handle-event', () => {
     sinon.assert.calledWith(robotMock.auth, payload.installation.id);
     sinon.assert.calledWith(validateGpgSpy, githubMock, contextMock, baseSha, headSha);
     sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, status);
-    assert.equal(result, createStatusResult);
+    assert.equal(createStatusResult, result);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
