@@ -7,17 +7,17 @@ const GitHubMock = require('./mocks/github');
 const ContextMock = require('./mocks/context');
 
 const createCommit = require('./utils/create-commit');
+const createPayload = require('./utils/create-payload');
 
 describe('get-commits', () => {
   it('should return all commits', async () => {
     // Arrange
     const commitEntries = generate(3, createCommit);
-    const contextMock = new ContextMock({
-      pull_request: { // eslint-disable-line camelcase
-        head: commitEntries[0],
-        base: commitEntries[commitEntries.length - 1]
-      }
-    });
+    const [headSha, baseSha] = [
+      commitEntries[0].sha,
+      commitEntries[commitEntries.length - 1].sha
+    ];
+    const contextMock = new ContextMock(createPayload(headSha, baseSha));
 
     const githubMock = new GitHubMock();
 
