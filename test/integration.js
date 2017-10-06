@@ -63,6 +63,7 @@ describe('integration', function () {
   });
 
   it('should create a status when a pull request is opened', done => {
+    let server = null;
     const api = arrangeApi(
       probotOptions,
       require('./fixtures/opened/compare-commits'),
@@ -73,6 +74,9 @@ describe('integration', function () {
     plugin.on('error', err => done(err));
     plugin.on('event-handled', () => {
       api.nock.done();
+      if (server !== null) {
+        server.close();
+      }
       done();
     });
 
@@ -95,7 +99,7 @@ describe('integration', function () {
       req.end();
     });
 
-    probot.start();
+    server = probot.server.listen(probotOptions.port);
     probot.load(plugin.load.bind(plugin));
   });
 });
