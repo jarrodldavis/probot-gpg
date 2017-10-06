@@ -19,9 +19,9 @@ describe('create-status', () => {
     githubMock.repos.createStatus.restore();
   });
 
-  it('should create a success state when `gpgStatus` is `true`', () => {
+  it('should create a success state when `gpgStatus` is `true`', async () => {
     const sha = createSha();
-    createStatus(githubMock, contextMock, sha, true);
+    await createStatus(githubMock, contextMock, sha, true);
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -32,9 +32,9 @@ describe('create-status', () => {
     });
   });
 
-  it('should create a failure state when `gpgStatus` is `false`', () => {
+  it('should create a failure state when `gpgStatus` is `false`', async () => {
     const sha = createSha();
-    createStatus(githubMock, contextMock, sha, false);
+    await createStatus(githubMock, contextMock, sha, false);
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
@@ -46,9 +46,9 @@ describe('create-status', () => {
     });
   });
 
-  it('should create an error state when `gpgStatus` is not a boolean', () => {
+  it('should create an error state when `gpgStatus` is not a boolean', async () => {
     const sha = createSha();
-    createStatus(githubMock, contextMock, sha, 'error');
+    await createStatus(githubMock, contextMock, sha, 'error');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
       sha,
       context: 'GPG',
