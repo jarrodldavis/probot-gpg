@@ -30,7 +30,7 @@ describe('create-status', () => {
     githubMock.repos.createStatus.restore();
   });
 
-  it('should create a success state when `gpgStatus` is "success"', () => {
+  it('should create a success state when `gpgStatus` is "success"', async () => {
     const { sha, contextMock } = arrange();
     createStatus(githubMock, contextMock, 'success');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
@@ -43,7 +43,7 @@ describe('create-status', () => {
     });
   });
 
-  it('should create a failure state when `gpgStatus` is "failure"', () => {
+  it('should create a failure state when `gpgStatus` is "failure"', async () => {
     const { sha, contextMock } = arrange();
     createStatus(githubMock, contextMock, 'failure');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
@@ -57,7 +57,7 @@ describe('create-status', () => {
     });
   });
 
-  it('should create an error state when `gpgStatus` is "error"', () => {
+  it('should create an error state when `gpgStatus` is "error"', async () => {
     const { sha, contextMock } = arrange();
     createStatus(githubMock, contextMock, 'error');
     sinon.assert.calledWith(githubMock.repos.createStatus, {
@@ -70,7 +70,7 @@ describe('create-status', () => {
     });
   });
 
-  it('should create an error state when `gpgStatus` is unexpected', () => {
+  it('should create an error state when `gpgStatus` is unexpected', async () => {
     const { sha, contextMock } = arrange();
     createStatus(githubMock, contextMock, 42);
     sinon.assert.calledWith(githubMock.repos.createStatus, {
