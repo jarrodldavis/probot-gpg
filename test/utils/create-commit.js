@@ -7,12 +7,12 @@ function randomStatus() {
   return statuses[index];
 }
 
-module.exports = verified => {
-  if (verified === undefined) {
-    verified = randomStatus();
+module.exports = status => {
+  if (status === undefined) {
+    status = randomStatus();
   }
 
-  if (verified === 'error') {
+  if (status === 'error') {
     return {
       commit: { sha: createSha() }
     };
@@ -22,8 +22,8 @@ module.exports = verified => {
     commit: {
       sha: createSha(),
       verification: {
-        verified,
-        reason: verified ? 'valid' : 'bad_email'
+        verified: status === 'success',
+        reason: status === 'success' ? 'valid' : 'bad_email'
       }
     }
   };

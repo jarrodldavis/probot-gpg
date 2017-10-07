@@ -6,7 +6,7 @@ const createCommit = require('./utils/create-commit');
 describe('validate-commit', () => {
   it('should return "success" if commit is verified', () => {
     // Arrange
-    const commit = createCommit(true).commit;
+    const commit = createCommit('success').commit;
 
     // Act
     const actual = validateCommit(commit);
@@ -17,7 +17,7 @@ describe('validate-commit', () => {
 
   it('should return "failure" if commit is not verified', () => {
     // Arrange
-    const commit = createCommit(false).commit;
+    const commit = createCommit('failure').commit;
 
     // Act
     const actual = validateCommit(commit);

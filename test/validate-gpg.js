@@ -20,18 +20,18 @@ describe('validate-gpg', () => {
   }
 
   it('should return "success" if all of the commits have a verified GPG signature', async () => {
-    return assert.equal('success', await testScenario(true, true, true));
+    return assert.equal('success', await testScenario('success', 'success', 'success'));
   });
 
   it('should return "failure" if all of the commits have an invalid GPG signature', async () => {
-    return assert.equal('failure', await testScenario(false, false, false));
+    return assert.equal('failure', await testScenario('failure', 'failure', 'failure'));
   });
 
   it('should return "failure" if one, but not all, of the commits has an invalid GPG signature', async () => {
-    return assert.equal('failure', await testScenario(true, false, true));
+    return assert.equal('failure', await testScenario('success', 'failure', 'success'));
   });
 
   it('should return "error" if a commit does not have GPG signature information', async () => {
-    return assert.equal('error', await testScenario(true, 'error', true));
+    return assert.equal('error', await testScenario('success', 'error', 'success'));
   });
 });
