@@ -1,4 +1,3 @@
-const assert = require('assertive');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
@@ -34,13 +33,13 @@ function arrangeSpies(commitStatuses, overallStatus) {
   const createStatusResult = { state: overallStatus };
   const createStatusSpy = sinon.stub().resolves(createStatusResult);
 
-  return { commits, createStatusResult, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy };
+  return { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy };
 }
 
 describe('handle-event', () => {
   async function testScenario(commitStatuses, overallStatus) {
     // Arrange
-    const { commits, createStatusResult, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(commitStatuses, overallStatus);
+    const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(commitStatuses, overallStatus);
     const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
 
     const githubMock = new GitHubMock();
@@ -53,7 +52,7 @@ describe('handle-event', () => {
     const contextMock = new ContextMock(payload);
 
     // Act
-    const result = await handlerUnderTest(robotMock, contextMock);
+    await handlerUnderTest(robotMock, contextMock);
 
     // Assert
     sinon.assert.calledWith(robotMock.auth, payload.installation.id);
@@ -63,7 +62,6 @@ describe('handle-event', () => {
     }
     sinon.assert.calledWithMatch(reduceStatusesSpy, sinon.match.array.deepEquals(commitStatuses));
     sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, overallStatus);
-    assert.equal(createStatusResult, result);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
