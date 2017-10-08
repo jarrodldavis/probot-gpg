@@ -19,23 +19,28 @@ function arrangeHandler(getCommits, validateCommit, reduceStatuses, createStatus
   });
 }
 
+function arrangeSpies(commitStatuses, overallStatus) {
+  const commits = commitStatuses.map(status => createCommit(status).commit);
+
+  const getCommitsSpy = sinon.stub().resolves(commits);
+
+  const validateCommitSpy = sinon.stub();
+  for (let i = 0; i <= commits.length; i += 1) {
+    validateCommitSpy.withArgs(commits[i]).returns(commitStatuses[i]);
+  }
+
+  const reduceStatusesSpy = sinon.stub().returns(overallStatus);
+
+  const createStatusResult = { state: overallStatus };
+  const createStatusSpy = sinon.stub().resolves(createStatusResult);
+
+  return { commits, createStatusResult, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy };
+}
+
 describe('handle-event', () => {
   async function testScenario(commitStatuses, overallStatus) {
     // Arrange
-    const commits = commitStatuses.map(status => createCommit(status).commit);
-
-    const getCommitsSpy = sinon.stub().resolves(commits);
-
-    const validateCommitSpy = sinon.stub();
-    for (let i = 0; i <= commits.length; i += 1) {
-      validateCommitSpy.withArgs(commits[i]).returns(commitStatuses[i]);
-    }
-
-    const reduceStatusesSpy = sinon.stub().returns(overallStatus);
-
-    const createStatusResult = { state: overallStatus };
-    const createStatusSpy = sinon.stub().resolves(createStatusResult);
-
+    const { commits, createStatusResult, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(commitStatuses, overallStatus);
     const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
 
     const githubMock = new GitHubMock();
