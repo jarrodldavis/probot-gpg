@@ -81,9 +81,21 @@ describe('handle-event', () => {
     await testScenario(['success', 'error', 'success'], 'error');
   });
 
-  it.skip('should orchestrate correctly when GPG verification check throws an error', async () => {
-    const err = new Error('The verification status of the commit cannot be determined');
-    const validateGpgSpy = sinon.stub().throws(err);
-    await testScenario(validateGpgSpy, 'error');
+  it('should orchestrate correctly when commit retrieval throws an error', async () => {
+    // Arrange
+    const getCommitsSpy = sinon.stub().throws();
+    const { validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(['success', 'success', 'success'], 'success');
+    const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
+    const { installationId, githubMock, robotMock, contextMock } = arrangeMocks();
+
+    // Act
+    await handlerUnderTest(robotMock, contextMock);
+
+    // Assert
+    sinon.assert.calledWith(robotMock.auth, installationId);
+    sinon.assert.calledWith(getCommitsSpy, githubMock, contextMock);
+    sinon.assert.notCalled(validateCommitSpy);
+    sinon.assert.notCalled(reduceStatusesSpy);
+    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, 'error');
   });
 });
