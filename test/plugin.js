@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assertive');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
@@ -97,7 +97,8 @@ describe('plugin', () => {
     const { plugin, robotMock } = arrange(sinon.stub());
 
     // Act, Assert
-    assert.throws(() => plugin.load.call(undefined, robotMock));
+    const err = assert.throws(() => plugin.load.call(undefined, robotMock));
+    assert.equal('Unexpected execution context for method call', err.message);
   });
 
   it('should throw if `acceptEvent` is called with incorrect execution context', async () => {
@@ -109,13 +110,7 @@ describe('plugin', () => {
     plugin.load(robotMock);
 
     // Act, Assert
-    try {
-      await plugin.acceptEvent.call(contextMock);
-    } catch (err) {
-      assert.equal(err.message, 'Unexpected execution context for method call');
-      return;
-    }
-
-    throw new Error('Expected `acceptEvent` to throw');
+    const err = await assert.rejects(plugin.acceptEvent.call(undefined, contextMock));
+    assert.equal('Unexpected execution context for method call', err.message);
   });
 });
