@@ -51,7 +51,7 @@ Otherwise, the app will set the status to `failure`.
 
 ## Email privacy
 
-If you or any of your contributors use a [GitHub-provided `noreply` email address](https://help.github.com/articles/about-commit-email-addresses/) to keep a personal email address private, simply use that `noreply` address when creating the  GPG key. Make sure that [`git`'s config is also using that `noreply` address](https://help.github.com/articles/setting-your-commit-email-address-in-git/) so that GitHub associates the GPG key correctly and validates it.
+If you or any of your contributors use a [GitHub-provided `noreply` email address](https://help.github.com/articles/about-commit-email-addresses/) to keep a personal email address private, that `noreply` address should be used when creating a GPG key. Make sure that [`git`'s config is also using that `noreply` address](https://help.github.com/articles/setting-your-commit-email-address-in-git/) so that GitHub associates the GPG key correctly and validates it.
 
 ## Further reading
 
