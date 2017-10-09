@@ -49,6 +49,10 @@ Otherwise, the app will set the status to `failure`.
 
 ![GPG status check failed screenshot](docs/screenshot-failure.png "GPG status check failed screenshot")
 
+## Email privacy
+
+If you or any of your contributors use the [GitHub provided `noreply` email address](https://help.github.com/articles/about-commit-email-addresses/) to keep their personal email address private, simply use that `noreply` address when creating the  GPG key. Make sure that your [local `git` config is also using that `noreply` address](https://help.github.com/articles/setting-your-commit-email-address-in-git/) so that GitHub associates the GPG key correctly and validates it.
+
 ## Further reading
 
 - [Git Tools - Signing Your Work](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)
