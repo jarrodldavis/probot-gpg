@@ -37,11 +37,13 @@
     "probot": "~0.11.0"
   },
   "devDependencies": {
+    "assertive": "^2.3.4",
     "coveralls": "^3.0.0",
     "dotenv": "^4.0.0",
     "jsonwebtoken": "^8.0.1",
     "localtunnel": "^1.8.2",
-    "mocha": "^3.2.0",
+    "lodash.times": "^4.3.2",
+    "mocha": "^4.0.0",
     "nock": "^9.0.13",
     "node-forge": "^0.7.1",
     "nyc": "^11.0.2",

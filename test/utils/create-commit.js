@@ -1,7 +1,18 @@
 const createSha = require('./create-sha');
 
-module.exports = verified => {
-  if (verified === 'error') {
+function randomStatus() {
+  const statuses = ['success', 'failure', 'error'];
+  const max = statuses.length - 1;
+  const index = Math.floor(Math.random() * max);
+  return statuses[index];
+}
+
+module.exports = status => {
+  if (status === undefined) {
+    status = randomStatus();
+  }
+
+  if (status === 'error') {
     return {
       commit: { sha: createSha() }
     };
@@ -11,8 +22,8 @@ module.exports = verified => {
     commit: {
       sha: createSha(),
       verification: {
-        verified,
-        reason: verified ? 'valid' : 'bad_email'
+        verified: status === 'success',
+        reason: status === 'success' ? 'valid' : 'bad_email'
       }
     }
   };
