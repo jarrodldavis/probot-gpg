@@ -36,7 +36,7 @@ See [docs/deploy.md](docs/deploy.md) if you would like to run your own instance 
 
 Git supports [signing commits with GPG keys](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work) to verify commit authorship beyond the easy-to-forge [author](https://git-scm.com/docs/git-commit#git-commit---authorltauthorgt) field.
 
-GitHub supports [verifying GPG signatures on commits](https://github.com/blog/2144-gpg-signature-verification) and has an excellent [series of help articles](https://help.github.com/articles/signing-commits-with-gpg/) for creating a GPG key, using it with `git` locally, and linking it to your GitHub account.
+GitHub supports [verifying GPG signatures on commits](https://github.com/blog/2144-gpg-signature-verification) and has an excellent [series of help articles](https://help.github.com/articles/signing-commits-with-gpg/) for creating a GPG key, using it with `git` locally, and linking it to a GitHub account.
 
 After installation, this app [checks all commits](https://developer.github.com/v3/repos/commits/#compare-two-commits) of new (or newly updated) pull requests for valid GPG signatures [according to the GitHub API](https://developer.github.com/changes/2016-04-04-git-signing-api-preview/). Note that for the status check to be `success`, _every_ contributor of a pull request must:
 - set up a GPG key on their local machine
@@ -51,7 +51,7 @@ Otherwise, the app will set the status to `failure`.
 
 ## Email privacy
 
-If you or any of your contributors use the [GitHub provided `noreply` email address](https://help.github.com/articles/about-commit-email-addresses/) to keep their personal email address private, simply use that `noreply` address when creating the  GPG key. Make sure that your [local `git` config is also using that `noreply` address](https://help.github.com/articles/setting-your-commit-email-address-in-git/) so that GitHub associates the GPG key correctly and validates it.
+If you or any of your contributors use a [GitHub-provided `noreply` email address](https://help.github.com/articles/about-commit-email-addresses/) to keep a personal email address private, simply use that `noreply` address when creating the  GPG key. Make sure that [`git`'s config is also using that `noreply` address](https://help.github.com/articles/setting-your-commit-email-address-in-git/) so that GitHub associates the GPG key correctly and validates it.
 
 ## Further reading
 
