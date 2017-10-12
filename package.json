@@ -34,7 +34,7 @@
     "lt": "lt --port 3000"
   },
   "dependencies": {
-    "probot": "~0.11.0"
+    "probot": "~1.0.0"
   },
   "devDependencies": {
     "assertive": "^2.3.4",
