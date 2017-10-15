@@ -1,6 +1,7 @@
 const assert = require('assertive');
 const validateCommit = require('../lib/validate-commit');
 
+const defaultConfig = require('../lib/default-config.json');
 const createCommit = require('./utils/create-commit');
 
 describe('validate-commit', () => {
@@ -9,7 +10,7 @@ describe('validate-commit', () => {
     const commit = createCommit('success').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(defaultConfig, commit);
 
     // Assert
     assert.equal('success', actual);
@@ -20,7 +21,7 @@ describe('validate-commit', () => {
     const commit = createCommit('failure').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(defaultConfig, commit);
 
     // Assert
     assert.equal('failure', actual);
@@ -31,7 +32,7 @@ describe('validate-commit', () => {
     const commit = createCommit('error').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(defaultConfig, commit);
 
     //
     assert.equal('error', actual);

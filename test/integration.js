@@ -17,7 +17,7 @@ const FixtureNockScope = require('./utils/fixture-nock-scope');
 
 const apiScope = 'https://api.github.com:443';
 
-function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
+function arrangeApi(probotOptions, getConfigRequest, compareCommitsRequest, createStatusRequest) {
   const appJwt = createAppJwt(
     new Date('2017-05-21T23:45:59.000Z'),
     probotOptions.id,
@@ -29,11 +29,13 @@ function arrangeApi(probotOptions, compareCommitsRequest, createStatusRequest) {
 
   const token = 'v1.' + createSha();
   authorizedTokenRequest.response.body.token = token;
+  getConfigRequest.request.headers.Authorization = 'token ' + token;
   compareCommitsRequest.request.headers.Authorization = 'token ' + token;
   createStatusRequest.request.headers.Authorization = 'token ' + token;
 
   return new FixtureNockScope(apiScope)
     .interceptFromFixture(authorizedTokenRequest)
+    .interceptFromFixture(getConfigRequest)
     .interceptFromFixture(compareCommitsRequest)
     .interceptFromFixture(createStatusRequest);
 }
@@ -74,6 +76,7 @@ describe('integration', function () {
 
     const api = arrangeApi(
       probotOptions,
+      require('./fixtures/opened/config-contents'),
       require('./fixtures/opened/compare-commits'),
       require('./fixtures/opened/create-status')
     );
