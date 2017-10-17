@@ -100,4 +100,37 @@ describe('reduce-statuses', () => {
     // Assert
     assert.equal('error', actual);
   });
+
+  it('should return "web-flow-ignored" if the first status is an ignored web-flow commit', () => {
+    // Arrange
+    const statusChain = ['web-flow-ignored', 'success', 'success', 'success', 'success'];
+
+    // Act
+    const actual = reduceStatuses(statusChain);
+
+    // Assert
+    assert.equal('web-flow-ignored', actual);
+  });
+
+  it('should return "web-flow-ignored" if a middle status is an ignored web-flow commit', () => {
+    // Arrange
+    const statusChain = ['success', 'success', 'web-flow-ignored', 'success', 'success'];
+
+    // Act
+    const actual = reduceStatuses(statusChain);
+
+    // Assert
+    assert.equal('web-flow-ignored', actual);
+  });
+
+  it('should return "web-flow-ignored" if the last status is an ignored web-flow commit', () => {
+    // Arrange
+    const statusChain = ['success', 'success', 'success', 'success', 'web-flow-ignored'];
+
+    // Act
+    const actual = reduceStatuses(statusChain);
+
+    // Assert
+    assert.equal('web-flow-ignored', actual);
+  });
 });
