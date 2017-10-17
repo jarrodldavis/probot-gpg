@@ -22,7 +22,7 @@ function arrangeHandler(getConfig, getCommits, validateCommit, reduceStatuses, c
 }
 
 function arrangeSpies(commitStatuses, overallStatus) {
-  const commits = commitStatuses.map(status => createCommit(status).commit);
+  const commits = commitStatuses.map(status => createCommit(status));
 
   const getConfigSpy = sinon.stub().resolves(defaultConfig);
   const getCommitsSpy = sinon.stub().resolves(commits);

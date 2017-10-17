@@ -7,7 +7,7 @@ const createCommit = require('./utils/create-commit');
 describe('validate-commit', () => {
   it('should return "success" if commit is verified', () => {
     // Arrange
-    const commit = createCommit('success').commit;
+    const commit = createCommit('success');
 
     // Act
     const actual = validateCommit(defaultConfig, commit);
@@ -18,7 +18,7 @@ describe('validate-commit', () => {
 
   it('should return "failure" if commit is not verified', () => {
     // Arrange
-    const commit = createCommit('failure').commit;
+    const commit = createCommit('failure');
 
     // Act
     const actual = validateCommit(defaultConfig, commit);
@@ -29,7 +29,7 @@ describe('validate-commit', () => {
 
   it('should return "error" if commit has not verification information', () => {
     // Arrange
-    const commit = createCommit('error').commit;
+    const commit = createCommit('error');
 
     // Act
     const actual = validateCommit(defaultConfig, commit);
@@ -41,7 +41,7 @@ describe('validate-commit', () => {
   describe('web-flow defaults', () => {
     it('should treat a successful web-flow commit normally', () => {
       // Arrange
-      const commit = createCommit('success', 'web-flow').commit;
+      const commit = createCommit('success', 'web-flow');
 
       // Act
       const actual = validateCommit(defaultConfig, commit);
@@ -52,7 +52,7 @@ describe('validate-commit', () => {
 
     it('should treat a failed web-flow commit normally', () => {
       // Arrange
-      const commit = createCommit('failed', 'web-flow').commit;
+      const commit = createCommit('failed', 'web-flow');
 
       // Act
       const actual = validateCommit(defaultConfig, commit);
@@ -63,7 +63,7 @@ describe('validate-commit', () => {
 
     it('should treat an errored web-flow commit normally', () => {
       // Arrange
-      const commit = createCommit('error', 'web-flow').commit;
+      const commit = createCommit('error', 'web-flow');
 
       // Act
       const actual = validateCommit(defaultConfig, commit);
@@ -78,7 +78,7 @@ describe('validate-commit', () => {
 
     it('should treat a successful web-flow commit normally', () => {
       // Arrange
-      const commit = createCommit('success', 'web-flow').commit;
+      const commit = createCommit('success', 'web-flow');
 
       // Act
       const actual = validateCommit(config, commit);
@@ -89,7 +89,7 @@ describe('validate-commit', () => {
 
     it('should return "web-flow-ignored" if a web-flow commit is not verified', () => {
       // Arrange
-      const commit = createCommit('failure', 'web-flow').commit;
+      const commit = createCommit('failure', 'web-flow');
 
       // Act
       const actual = validateCommit(config, commit);
@@ -100,7 +100,7 @@ describe('validate-commit', () => {
 
     it('should return "web-flow-ignored" if a web-flow commit does not have verification information', () => {
       // Arrange
-      const commit = createCommit('error', 'web-flow').commit;
+      const commit = createCommit('error', 'web-flow');
 
       // Act
       const actual = validateCommit(config, commit);

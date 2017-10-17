@@ -14,8 +14,8 @@ describe('get-commits', () => {
     // Arrange
     const commitEntries = generate(3, createCommit);
     const [headSha, baseSha] = [
-      commitEntries[0].sha,
-      commitEntries[commitEntries.length - 1].sha
+      commitEntries[0].commit.sha,
+      commitEntries[commitEntries.length - 1].commit.sha
     ];
     const contextMock = new ContextMock(createPayload(headSha, baseSha));
 
@@ -25,12 +25,10 @@ describe('get-commits', () => {
       data: { commits: commitEntries }
     });
 
-    const expected = commitEntries.map(entry => entry.commit);
-
     // Act
     const actual = await getCommits(githubMock, contextMock);
 
     // Assert
-    assert.deepStrictEqual(actual, expected);
+    assert.deepStrictEqual(actual, commitEntries);
   });
 });

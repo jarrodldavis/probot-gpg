@@ -18,13 +18,18 @@ module.exports = (status, login) => {
 
   if (status === 'error') {
     return {
-      commit: { login, sha: createSha() }
+      commit: { sha: createSha() },
+      committer: {
+        login
+      }
     };
   }
 
   return {
+    committer: {
+      login
+    },
     commit: {
-      login,
       sha: createSha(),
       verification: {
         verified: status === 'success',
