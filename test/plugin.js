@@ -3,7 +3,6 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const ContextMock = require('./mocks/context');
-const GitHubMock = require('./mocks/github');
 const RobotMock = require('./mocks/robot');
 
 function arrange(handleEventSpy) {
@@ -12,7 +11,7 @@ function arrange(handleEventSpy) {
   });
   return {
     plugin: new Plugin(),
-    robotMock: new RobotMock(new GitHubMock()),
+    robotMock: new RobotMock(),
     contextMock: new ContextMock()
   };
 }

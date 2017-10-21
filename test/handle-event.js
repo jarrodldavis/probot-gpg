@@ -2,7 +2,6 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const ContextMock = require('./mocks/context');
-const GitHubMock = require('./mocks/github');
 const RobotMock = require('./mocks/robot');
 
 const createSha = require('./utils/create-sha');
@@ -37,16 +36,14 @@ function arrangeSpies(commitStatuses, overallStatus) {
 }
 
 function arrangeMocks() {
-  const githubMock = new GitHubMock();
-  const robotMock = new RobotMock(githubMock);
-  sinon.spy(robotMock, 'auth');
+  const robotMock = new RobotMock();
 
   const [baseSha, headSha] = [createSha(), createSha()];
   const payload = createPayload(baseSha, headSha);
 
   const contextMock = new ContextMock(payload);
 
-  return { installationId: payload.installation.id, githubMock, robotMock, contextMock };
+  return { robotMock, contextMock };
 }
 
 describe('handle-event', () => {
@@ -54,19 +51,18 @@ describe('handle-event', () => {
     // Arrange
     const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(commitStatuses, overallStatus);
     const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
-    const { installationId, githubMock, robotMock, contextMock } = arrangeMocks();
+    const { robotMock, contextMock } = arrangeMocks();
 
     // Act
     await handlerUnderTest(robotMock, contextMock);
 
     // Assert
-    sinon.assert.calledWith(robotMock.auth, installationId);
-    sinon.assert.calledWith(getCommitsSpy, githubMock, contextMock);
+    sinon.assert.calledWith(getCommitsSpy, contextMock);
     for (const commit of commits) {
       sinon.assert.calledWith(validateCommitSpy, commit);
     }
     sinon.assert.calledWithMatch(reduceStatusesSpy, sinon.match.array.deepEquals(commitStatuses));
-    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, overallStatus);
+    sinon.assert.calledWith(createStatusSpy, contextMock, overallStatus);
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
@@ -86,16 +82,15 @@ describe('handle-event', () => {
     const getCommitsSpy = sinon.stub().throws();
     const { validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(['success', 'success', 'success'], 'success');
     const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
-    const { installationId, githubMock, robotMock, contextMock } = arrangeMocks();
+    const { robotMock, contextMock } = arrangeMocks();
 
     // Act
     await handlerUnderTest(robotMock, contextMock);
 
     // Assert
-    sinon.assert.calledWith(robotMock.auth, installationId);
-    sinon.assert.calledWith(getCommitsSpy, githubMock, contextMock);
+    sinon.assert.calledWith(getCommitsSpy, contextMock);
     sinon.assert.notCalled(validateCommitSpy);
     sinon.assert.notCalled(reduceStatusesSpy);
-    sinon.assert.calledWith(createStatusSpy, githubMock, contextMock, 'error');
+    sinon.assert.calledWith(createStatusSpy, contextMock, 'error');
   });
 });
