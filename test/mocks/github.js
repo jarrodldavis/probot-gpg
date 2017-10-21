@@ -1,9 +1,9 @@
 class RepoMock {
-  compareCommits() {
-    Promise.resolve();
+  async compareCommits() {
+    return Promise.resolve();
   }
-  createStatus() {
-    Promise.resolve();
+  async createStatus() {
+    return Promise.resolve();
   }
 }
 
