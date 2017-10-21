@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.0] - 2017-10-20
+### Added
+- Logo (crafted lovingly by [@JasonEtco](https://github.com/jasonetco))
+- Codacy code review and coverage
+
+### Changed
+- Clean up docs
+- Update `sinon` to `4.0.0`
+- Update `coveralls` to `3.0.0`
+- Update `mocha` to `4.0.0`
+- Update `probot` to `3.0.0`
+- Refactored internals to allow for future improvements
+
 ## [0.4.0] - 2017-09-24
 ### Added
 - Documentation on how to use and what to expect from this app
@@ -44,3 +57,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 [0.2.0]: https://github.com/jarrodldavis/probot-gpg/compare/v0.1.0...v0.2.0
 [0.3.0]: https://github.com/jarrodldavis/probot-gpg/compare/v0.2.0...v0.3.0
 [0.4.0]: https://github.com/jarrodldavis/probot-gpg/compare/v0.3.0...v0.4.0
+[0.5.0]: https://github.com/jarrodldavis/probot-gpg/compare/v0.4.0...v0.5.0
