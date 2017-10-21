@@ -6,7 +6,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [0.5.0] - 2017-10-20
 ### Added
 - Logo (crafted lovingly by [@JasonEtco](https://github.com/jasonetco))
-- Codacy code review and coverage
 
 ### Changed
 - Clean up docs

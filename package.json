@@ -29,9 +29,7 @@
   "scripts": {
     "start": "probot run ./index.js",
     "test": "xo && nyc mocha",
-    "coverage": "npm run coverage:coveralls && npm run coverage:codacy",
-    "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:codacy": "nyc report --reporter=text-lcov | codacy-coverage",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "nock-record": "./scripts/nock-record",
     "lt": "lt --port 3000"
   },
@@ -40,7 +38,6 @@
   },
   "devDependencies": {
     "assertive": "^2.3.4",
-    "codacy-coverage": "^2.0.3",
     "coveralls": "^3.0.0",
     "dotenv": "^4.0.0",
     "jsonwebtoken": "^8.0.1",
