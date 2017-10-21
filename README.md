@@ -11,9 +11,7 @@
 > A GitHub App built with [Probot](https://github.com/probot/probot) that enforces GPG signatures on pull requests
 
 [![Build status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg "Build status")
-[![Coveralls coverage status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg "Coveralls coverage status")
-[![Codacy status](https://api.codacy.com/project/badge/Grade/12df40a97cef457a8e2ac19f48262f61)](https://www.codacy.com/app/jarrodldavis/probot-gpg "Codacy status")
-[![Codacy coverage status](https://api.codacy.com/project/badge/Coverage/12df40a97cef457a8e2ac19f48262f61)](https://www.codacy.com/app/jarrodldavis/probot-gpg "Codacy coverage status")
+[![Coverage status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg "Coverage status")
 [![NSP status](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac/badge)](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac "NSP status")
 [![Greenkeeper status](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/ "Greenkeeper status")
 [![npm](https://img.shields.io/npm/v/@jarrodldavis/probot-gpg.svg)](https://www.npmjs.com/package/@jarrodldavis/probot-gpg "npm")
