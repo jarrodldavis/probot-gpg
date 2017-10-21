@@ -7,18 +7,28 @@ function randomStatus() {
   return statuses[index];
 }
 
-module.exports = status => {
+module.exports = (status, login) => {
   if (status === undefined) {
     status = randomStatus();
   }
 
+  if (login === undefined) {
+    login = 'jarrodldavis';
+  }
+
   if (status === 'error') {
     return {
-      commit: { sha: createSha() }
+      commit: { sha: createSha() },
+      committer: {
+        login
+      }
     };
   }
 
   return {
+    committer: {
+      login
+    },
     commit: {
       sha: createSha(),
       verification: {

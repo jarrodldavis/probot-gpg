@@ -1,0 +1,59 @@
+{
+  "scope": "https://api.github.com:443",
+  "request": {
+    "method": "GET",
+    "path": "/repos/jarrodldavis/git-flow-test/contents/.github%2Fconfig.yml",
+    "headers": {
+      "host": "api.github.com",
+      "content-length": "0",
+      "authorization": "",
+      "accept": "application/vnd.github.v3+json"
+    },
+    "body": ""
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 15 Oct 2017 02:54:08 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "1020",
+      "Connection": "close",
+      "Status": "200 OK",
+      "X-RateLimit-Limit": "5000",
+      "X-RateLimit-Remaining": "4993",
+      "X-RateLimit-Reset": "1508039235",
+      "Cache-Control": "private, max-age=60, s-maxage=60",
+      "Vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+      "ETag": "\"6ac0878b2150de85f2e899def1c8dcd5\"",
+      "Last-Modified": "Sun, 15 Oct 2017 02:50:39 GMT",
+      "X-GitHub-Media-Type": "github.v3; format=json",
+      "Access-Control-Expose-Headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Security-Policy": "default-src 'none'",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "deny",
+      "X-XSS-Protection": "1; mode=block",
+      "X-Runtime-rack": "0.040641",
+      "X-GitHub-Request-Id": "8FC0:38F2:EF6075:1E2EAA9:59E2CDD0"
+    },
+    "body": {
+      "name": "config.yml",
+      "path": ".github/config.yml",
+      "sha": "09ae64ca502c2a891be47de4e8e76302b9034dc7",
+      "size": 28,
+      "url": "https://api.github.com/repos/jarrodldavis/git-flow-test/contents/.github/config.yml?ref=master",
+      "html_url": "https://github.com/jarrodldavis/git-flow-test/blob/master/.github/config.yml",
+      "git_url": "https://api.github.com/repos/jarrodldavis/git-flow-test/git/blobs/09ae64ca502c2a891be47de4e8e76302b9034dc7",
+      "type": "file",
+      "content": "Z3BnOgogIGlnbm9yZVdlYkZsb3c6IGZhbHNlCg==\n",
+      "encoding": "base64",
+      "_links": {
+        "self": "https://api.github.com/repos/jarrodldavis/git-flow-test/contents/.github/config.yml?ref=master",
+        "git": "https://api.github.com/repos/jarrodldavis/git-flow-test/git/blobs/09ae64ca502c2a891be47de4e8e76302b9034dc7",
+        "html": "https://github.com/jarrodldavis/git-flow-test/blob/master/.github/config.yml"
+      }
+    }
+  }
+}
