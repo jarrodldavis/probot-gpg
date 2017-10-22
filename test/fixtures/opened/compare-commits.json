@@ -7,7 +7,7 @@
       "Host": "api.github.com",
       "Content-Length": "0",
       "Authorization": "",
-      "Accept": "application/vnd.github.cryptographer-preview"
+      "Accept": "application/vnd.github.v3+json"
     },
     "body": ""
   },
@@ -27,7 +27,7 @@
       "Vary": "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding",
       "ETag": "\"3277b5d90b37ee25efc5d6a606e70a08\"",
       "Last-Modified": "Sun, 21 May 2017 23:16:03 GMT",
-      "X-GitHub-Media-Type": "github.cryptographer-preview",
+      "X-GitHub-Media-Type": "github.v3; format=json",
       "Access-Control-Expose-Headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
       "Access-Control-Allow-Origin": "*",
       "Content-Security-Policy": "default-src 'none'",
