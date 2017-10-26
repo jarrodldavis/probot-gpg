@@ -3,11 +3,8 @@ const sinon = require('sinon');
 const createStatus = require('../lib/create-status');
 
 const ContextMock = require('./mocks/context');
-const GitHubMock = require('./mocks/github');
 
 const createSha = require('./utils/create-sha');
-
-const githubMock = new GitHubMock();
 
 function arrange() {
   const sha = createSha();
@@ -22,18 +19,21 @@ function arrange() {
 }
 
 describe('create-status', () => {
+  let sha;
+  let contextMock;
+
   beforeEach(() => {
-    sinon.spy(githubMock.repos, 'createStatus');
+    ({ sha, contextMock } = arrange());
+    sinon.spy(contextMock.github.repos, 'createStatus');
   });
 
   afterEach(() => {
-    githubMock.repos.createStatus.restore();
+    contextMock.github.repos.createStatus.restore();
   });
 
   it('should create a success state when `gpgStatus` is "success"', async () => {
-    const { sha, contextMock } = arrange();
-    createStatus(githubMock, contextMock, 'success');
-    sinon.assert.calledWith(githubMock.repos.createStatus, {
+    createStatus(contextMock, 'success');
+    sinon.assert.calledWith(contextMock.github.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'success',
@@ -44,9 +44,8 @@ describe('create-status', () => {
   });
 
   it('should create a failure state when `gpgStatus` is "failure"', async () => {
-    const { sha, contextMock } = arrange();
-    createStatus(githubMock, contextMock, 'failure');
-    sinon.assert.calledWith(githubMock.repos.createStatus, {
+    createStatus(contextMock, 'failure');
+    sinon.assert.calledWith(contextMock.github.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'failure',
@@ -58,9 +57,8 @@ describe('create-status', () => {
   });
 
   it('should create an error state when `gpgStatus` is "error"', async () => {
-    const { sha, contextMock } = arrange();
-    createStatus(githubMock, contextMock, 'error');
-    sinon.assert.calledWith(githubMock.repos.createStatus, {
+    createStatus(contextMock, 'error');
+    sinon.assert.calledWith(contextMock.github.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'error',
@@ -71,9 +69,8 @@ describe('create-status', () => {
   });
 
   it('should create an error state when `gpgStatus` is unexpected', async () => {
-    const { sha, contextMock } = arrange();
-    createStatus(githubMock, contextMock, 42);
-    sinon.assert.calledWith(githubMock.repos.createStatus, {
+    createStatus(contextMock, 42);
+    sinon.assert.calledWith(contextMock.github.repos.createStatus, {
       sha,
       context: 'GPG',
       state: 'error',

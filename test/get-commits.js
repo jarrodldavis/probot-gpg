@@ -3,7 +3,6 @@ const sinon = require('sinon');
 const generate = require('lodash.times');
 const getCommits = require('../lib/get-commits');
 
-const GitHubMock = require('./mocks/github');
 const ContextMock = require('./mocks/context');
 
 const createCommit = require('./utils/create-commit');
@@ -19,16 +18,14 @@ describe('get-commits', () => {
     ];
     const contextMock = new ContextMock(createPayload(headSha, baseSha));
 
-    const githubMock = new GitHubMock();
-
-    sinon.stub(githubMock.repos, 'compareCommits').resolves({
+    sinon.stub(contextMock.github.repos, 'compareCommits').resolves({
       data: { commits: commitEntries }
     });
 
     const expected = commitEntries.map(entry => entry.commit);
 
     // Act
-    const actual = await getCommits(githubMock, contextMock);
+    const actual = await getCommits(contextMock);
 
     // Assert
     assert.deepStrictEqual(actual, expected);
