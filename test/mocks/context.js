@@ -15,8 +15,10 @@ class GitHubMock {
 }
 
 module.exports = class ContextMock {
-  constructor(payload) {
+  constructor(payload, event, webhookId) {
     this.payload = payload;
+    this.event = event;
+    this.id = webhookId;
     this.github = new GitHubMock();
   }
 

@@ -1,0 +1,54 @@
+const assert = require('assertive');
+const sinon = require('sinon');
+const uuid = require('uuid/v4');
+
+const GpgEventContext = require('../lib/gpg-context');
+
+const RobotMock = require('./mocks/robot');
+const ContextMock = require('./mocks/context');
+
+const createPayload = require('./utils/create-payload');
+const createSha = require('./utils/create-sha');
+
+describe('gpg-context', () => {
+  it('should assign base context properties to itself', () => {
+    // Arrange
+    const robot = new RobotMock();
+    const context = new ContextMock(createPayload(createSha(), createSha()));
+
+    // Act
+    const gpgContext = new GpgEventContext(robot, context);
+
+    // Assert
+    assert.equal(context.payload, gpgContext.payload);
+    assert.equal(context.github, gpgContext.github);
+  });
+
+  it('should prefix log output', () => {
+    // Arrange
+    const robot = new RobotMock();
+
+    const payload = createPayload(createSha(), createSha(), {
+      action: 'synchronize',
+      repoName: 'jarrodldavis/probot-gpg-test',
+      number: 1
+    });
+
+    const webhookId = uuid();
+    const context = new ContextMock(payload, 'pull_request', webhookId);
+
+    const expectedPrefix = `[App: GPG] [Event: pull_request.synchronize] [Repo: jarrodldavis/probot-gpg-test] [Issue: 1] [Webhook: ${webhookId}]`;
+
+    const gpgContext = new GpgEventContext(robot, context);
+
+    // Act
+    gpgContext.log.debug('This is for debugging');
+    gpgContext.log.info('Here is some information');
+    gpgContext.log.error('An error occurred');
+
+    // Assert
+    sinon.assert.calledWith(robot.log.debug, `${expectedPrefix} This is for debugging`);
+    sinon.assert.calledWith(robot.log.info, `${expectedPrefix} Here is some information`);
+    sinon.assert.calledWith(robot.log.error, `${expectedPrefix} An error occurred`);
+  });
+});
