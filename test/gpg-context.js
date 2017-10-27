@@ -5,7 +5,7 @@ const uuid = require('uuid/v4');
 const GpgEventContext = require('../lib/gpg-context');
 
 const RobotMock = require('./mocks/robot');
-const ContextMock = require('./mocks/context');
+const ContextMock = require('./mocks/context').ProbotContextMock;
 
 const createPayload = require('./utils/create-payload');
 const createSha = require('./utils/create-sha');

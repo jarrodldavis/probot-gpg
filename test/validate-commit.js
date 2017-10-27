@@ -1,15 +1,25 @@
 const assert = require('assertive');
 const validateCommit = require('../lib/validate-commit');
 
+const ContextMock = require('./mocks/context').GpgEventContextMock;
+
 const createCommit = require('./utils/create-commit');
+const createPayload = require('./utils/create-payload');
+const createSha = require('./utils/create-sha');
 
 describe('validate-commit', () => {
+  let contextMock;
+
+  beforeEach(() => {
+    contextMock = new ContextMock(createPayload(createSha(), createSha()));
+  });
+
   it('should return "success" if commit is verified', () => {
     // Arrange
     const commit = createCommit('success').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(contextMock, commit);
 
     // Assert
     assert.equal('success', actual);
@@ -20,7 +30,7 @@ describe('validate-commit', () => {
     const commit = createCommit('failure').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(contextMock, commit);
 
     // Assert
     assert.equal('failure', actual);
@@ -31,7 +41,7 @@ describe('validate-commit', () => {
     const commit = createCommit('error').commit;
 
     // Act
-    const actual = validateCommit(commit);
+    const actual = validateCommit(contextMock, commit);
 
     //
     assert.equal('error', actual);

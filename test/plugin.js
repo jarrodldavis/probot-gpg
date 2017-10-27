@@ -1,18 +1,30 @@
 const assert = require('assertive');
 const sinon = require('sinon');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noCallThru();
 
-const ContextMock = require('./mocks/context');
+const ContextMock = require('./mocks/context').ProbotContextMock;
+const GpgEventContextMock = require('./mocks/context').GpgEventContextMock;
 const RobotMock = require('./mocks/robot');
 
+const createPayload = require('./utils/create-payload');
+const createSha = require('./utils/create-sha');
+
 function arrange(handleEventSpy) {
+  const payload = createPayload(createSha(), createSha());
+  const contextMock = new ContextMock(payload);
+  const gpgContextMock = new GpgEventContextMock(payload);
+  const gpgContextConstructorMock = sinon.spy(() => gpgContextMock);
+
   const Plugin = proxyquire('../lib/plugin', {
-    './handle-event': handleEventSpy
+    './handle-event': handleEventSpy,
+    './gpg-context': gpgContextConstructorMock
   });
   return {
     plugin: new Plugin(),
     robotMock: new RobotMock(),
-    contextMock: new ContextMock()
+    contextMock,
+    gpgContextMock,
+    gpgContextConstructorMock
   };
 }
 
@@ -20,14 +32,15 @@ describe('plugin', () => {
   it('should load correctly', async () => {
     // Arrange
     const handleEventSpy = sinon.spy();
-    const { plugin, robotMock, contextMock } = arrange(handleEventSpy);
+    const { plugin, robotMock, contextMock, gpgContextMock, gpgContextConstructorMock } = arrange(handleEventSpy);
 
     // Act
     plugin.load(robotMock);
     await plugin.acceptEvent(contextMock);
 
     // Assert
-    sinon.assert.calledWith(handleEventSpy, robotMock, contextMock);
+    sinon.assert.calledWith(gpgContextConstructorMock, robotMock, contextMock);
+    sinon.assert.calledWith(handleEventSpy, gpgContextMock);
   });
 
   it('should emit event-handled event when event is handled successfully', async () => {

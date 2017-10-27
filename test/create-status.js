@@ -2,7 +2,7 @@ const sinon = require('sinon');
 
 const createStatus = require('../lib/create-status');
 
-const ContextMock = require('./mocks/context');
+const ContextMock = require('./mocks/context').GpgEventContextMock;
 
 const createSha = require('./utils/create-sha');
 

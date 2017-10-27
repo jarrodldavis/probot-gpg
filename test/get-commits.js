@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const generate = require('lodash.times');
 const getCommits = require('../lib/get-commits');
 
-const ContextMock = require('./mocks/context');
+const ContextMock = require('./mocks/context').GpgEventContextMock;
 
 const createCommit = require('./utils/create-commit');
 const createPayload = require('./utils/create-payload');
