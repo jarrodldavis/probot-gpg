@@ -16,7 +16,7 @@ function arrangeHandler(getCommits, validateCommit, reduceStatuses, createStatus
   });
 }
 
-function arrangeSpies(context, commitStatuses, overallStatus) {
+function arrangeSpies(context, commitStatuses, overallStatus, spyOverrides) {
   const commits = commitStatuses.map(status => createCommit(status).commit);
 
   const getCommitsSpy = sinon.stub().resolves(commits);
@@ -31,7 +31,7 @@ function arrangeSpies(context, commitStatuses, overallStatus) {
   const createStatusResult = { state: overallStatus };
   const createStatusSpy = sinon.stub().resolves(createStatusResult);
 
-  return { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy };
+  return { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy, ...spyOverrides };
 }
 
 function arrangeMocks() {
@@ -44,10 +44,10 @@ function arrangeMocks() {
 }
 
 describe('handle-event', () => {
-  async function testScenario(commitStatuses, overallStatus) {
+  async function testScenario(commitStatuses, overallStatus, spyOverrides = {}) {
     // Arrange
     const contextMock = arrangeMocks();
-    const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, commitStatuses, overallStatus);
+    const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, commitStatuses, overallStatus, spyOverrides);
     const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
 
     // Act
@@ -89,5 +89,11 @@ describe('handle-event', () => {
     sinon.assert.notCalled(validateCommitSpy);
     sinon.assert.notCalled(reduceStatusesSpy);
     sinon.assert.calledWith(createStatusSpy, contextMock, 'error');
+  });
+
+  it('should orchestrate correctly when status creation throws an error', async () => {
+    await testScenario(['success', 'success', 'success'], 'success', {
+      createStatusSpy: sinon.stub().throws()
+    });
   });
 });
