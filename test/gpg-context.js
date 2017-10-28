@@ -41,8 +41,7 @@ describe('gpg-context', () => {
     const webhookId = uuid();
     const context = new ContextMock(payload, 'pull_request', webhookId);
 
-    const shortWebhookId = Buffer.from(webhookId.replace(/-/g, ''), 'hex').toString('base64');
-    const expectedPrefix = `[GPG] {p_r.s@jarrodldavis/probot-gpg-test#1 ${shortWebhookId}}`;
+    const expectedPrefix = `[GPG] {pull_request.synchronize@jarrodldavis/probot-gpg-test#1} (${webhookId})`;
 
     const gpgContext = new GpgEventContext(robot, context);
 
@@ -52,8 +51,8 @@ describe('gpg-context', () => {
     gpgContext.log.error('An error occurred');
 
     // Assert
-    sinon.assert.calledWith(robot.log.debug, `${expectedPrefix} This is for debugging`);
-    sinon.assert.calledWith(robot.log.info, `${expectedPrefix} Here is some information`);
-    sinon.assert.calledWith(robot.log.error, `${expectedPrefix} An error occurred`);
+    sinon.assert.calledWith(robot.log.debug, `${expectedPrefix}\nThis is for debugging`);
+    sinon.assert.calledWith(robot.log.info, `${expectedPrefix}\nHere is some information`);
+    sinon.assert.calledWith(robot.log.error, `${expectedPrefix}\nAn error occurred`);
   });
 });
