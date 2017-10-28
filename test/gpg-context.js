@@ -14,7 +14,11 @@ describe('gpg-context', () => {
   it('should assign base context properties to itself', () => {
     // Arrange
     const robot = new RobotMock();
-    const context = new ContextMock(createPayload(createSha(), createSha()));
+    const context = new ContextMock(createPayload(createSha(), createSha(), {
+      action: 'synchronize',
+      repoName: 'jarrodldavis/probot-gpg-test',
+      number: 1
+    }), 'pull_request', uuid());
 
     // Act
     const gpgContext = new GpgEventContext(robot, context);
@@ -37,7 +41,8 @@ describe('gpg-context', () => {
     const webhookId = uuid();
     const context = new ContextMock(payload, 'pull_request', webhookId);
 
-    const expectedPrefix = `[App: GPG] [Event: pull_request.synchronize] [Repo: jarrodldavis/probot-gpg-test] [Issue: 1] [Webhook: ${webhookId}]`;
+    const shortWebhookId = Buffer.from(webhookId.replace(/-/g, ''), 'hex').toString('base64');
+    const expectedPrefix = `[GPG] {p_r.s@jarrodldavis/probot-gpg-test#1 ${shortWebhookId}}`;
 
     const gpgContext = new GpgEventContext(robot, context);
 
