@@ -28,6 +28,14 @@
     "SENTRY_DSN": {
       "description": "the Sentry Data Source Name (DSN) used to configure the Sentry SDK",
       "required": false
+    },
+    "LOG_LEVEL": {
+      "description": "the lowest level of log output to display (trace, debug, info, warn, error, fatal)",
+      "value": "debug"
+    },
+    "LOG_FORMAT": {
+      "description": "how log output should be formatted (simple, short, long, bunyan, json, inspect)",
+      "value": "long"
     }
   },
   "formation": {
