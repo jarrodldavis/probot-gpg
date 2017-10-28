@@ -31,7 +31,7 @@ function arrangeSpies(context, commitStatuses, overallStatus, spyOverrides) {
   const createStatusResult = { state: overallStatus };
   const createStatusSpy = sinon.stub().resolves(createStatusResult);
 
-  return { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy, ...spyOverrides };
+  return Object.assign({ commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy }, spyOverrides);
 }
 
 function arrangeMocks() {
