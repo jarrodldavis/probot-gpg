@@ -1,3 +1,5 @@
+const createLogStubs = require('../utils/create-log-stubs');
+
 class RepoMock {
   async compareCommits() {
     return Promise.resolve();
@@ -14,9 +16,11 @@ class GitHubMock {
   }
 }
 
-module.exports = class ContextMock {
-  constructor(payload) {
+class ContextMock {
+  constructor(payload, event, webhookId) {
     this.payload = payload;
+    this.event = event;
+    this.id = webhookId;
     this.github = new GitHubMock();
   }
 
@@ -26,4 +30,13 @@ module.exports = class ContextMock {
       repo: 'repo'
     }, object);
   }
-};
+}
+
+class GpgEventContextMock extends ContextMock {
+  constructor(payload, event, webhookId) {
+    super(payload, event, webhookId);
+    this.log = createLogStubs();
+  }
+}
+
+module.exports = { ProbotContextMock: ContextMock, GpgEventContextMock };

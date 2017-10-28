@@ -1,13 +1,25 @@
 const assert = require('assertive');
+
 const reduceStatuses = require('../lib/reduce-statuses');
 
+const ContextMock = require('./mocks/context').GpgEventContextMock;
+
+const createPayload = require('./utils/create-payload');
+const createSha = require('./utils/create-sha');
+
 describe('reduce-statuses', () => {
+  let contextMock;
+
+  beforeEach(() => {
+    contextMock = new ContextMock(createPayload(createSha(), createSha()));
+  });
+
   it('should return "success" if all statuses are successful', () => {
     // Arrange
     const statusChain = ['success', 'success', 'success', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('success', actual);
@@ -18,7 +30,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['failure', 'success', 'success', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('failure', actual);
@@ -29,7 +41,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['success', 'success', 'success', 'success', 'failure'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('failure', actual);
@@ -40,7 +52,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['success', 'success', 'failure', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('failure', actual);
@@ -51,7 +63,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['error', 'success', 'success', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('error', actual);
@@ -62,7 +74,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['success', 'success', 'success', 'success', 'error'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('error', actual);
@@ -73,7 +85,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['success', 'success', 'error', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('error', actual);
@@ -84,7 +96,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['success', 'success', 'error', 'success', 'failure'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('error', actual);
@@ -95,7 +107,7 @@ describe('reduce-statuses', () => {
     const statusChain = ['failure', 'success', 'error', 'success', 'success'];
 
     // Act
-    const actual = reduceStatuses(statusChain);
+    const actual = reduceStatuses(contextMock, statusChain);
 
     // Assert
     assert.equal('error', actual);

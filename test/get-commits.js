@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const generate = require('lodash.times');
 const getCommits = require('../lib/get-commits');
 
-const ContextMock = require('./mocks/context');
+const ContextMock = require('./mocks/context').GpgEventContextMock;
 
 const createCommit = require('./utils/create-commit');
 const createPayload = require('./utils/create-payload');
@@ -22,12 +22,10 @@ describe('get-commits', () => {
       data: { commits: commitEntries }
     });
 
-    const expected = commitEntries.map(entry => entry.commit);
-
     // Act
     const actual = await getCommits(contextMock);
 
     // Assert
-    assert.deepStrictEqual(actual, expected);
+    assert.deepStrictEqual(actual, commitEntries);
   });
 });
