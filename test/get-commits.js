@@ -22,12 +22,10 @@ describe('get-commits', () => {
       data: { commits: commitEntries }
     });
 
-    const expected = commitEntries.map(entry => entry.commit);
-
     // Act
     const actual = await getCommits(contextMock);
 
     // Assert
-    assert.deepStrictEqual(actual, expected);
+    assert.deepStrictEqual(actual, commitEntries);
   });
 });

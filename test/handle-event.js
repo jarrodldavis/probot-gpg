@@ -17,7 +17,7 @@ function arrangeHandler(getCommits, validateCommit, reduceStatuses, createStatus
 }
 
 function arrangeSpies(context, commitStatuses, overallStatus, spyOverrides) {
-  const commits = commitStatuses.map(status => createCommit(status).commit);
+  const commits = commitStatuses.map(status => createCommit(status));
 
   const getCommitsSpy = sinon.stub().resolves(commits);
 

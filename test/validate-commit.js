@@ -16,7 +16,7 @@ describe('validate-commit', () => {
 
   it('should return "success" if commit is verified', () => {
     // Arrange
-    const commit = createCommit('success').commit;
+    const commit = createCommit('success');
 
     // Act
     const actual = validateCommit(contextMock, commit);
@@ -27,7 +27,7 @@ describe('validate-commit', () => {
 
   it('should return "failure" if commit is not verified', () => {
     // Arrange
-    const commit = createCommit('failure').commit;
+    const commit = createCommit('failure');
 
     // Act
     const actual = validateCommit(contextMock, commit);
@@ -38,7 +38,7 @@ describe('validate-commit', () => {
 
   it('should return "error" if commit has not verification information', () => {
     // Arrange
-    const commit = createCommit('error').commit;
+    const commit = createCommit('error');
 
     // Act
     const actual = validateCommit(contextMock, commit);
