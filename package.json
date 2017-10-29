@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "probot run ./index.js",
-    "test": "xo && nyc mocha",
+    "test": "standard --verbose | snazzy && nyc mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "nock-record": "./scripts/nock-record",
     "lt": "lt --port 3000"
@@ -49,27 +49,13 @@
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
     "sinon": "^4.0.0",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3",
     "strip-ansi": "^4.0.0",
-    "uuid": "^3.1.0",
-    "xo": "^0.18.0"
+    "uuid": "^3.1.0"
   },
   "engines": {
     "node": ">= 7.7.0",
     "npm": ">= 4.0.0"
-  },
-  "xo": {
-    "extends": "xo/esnext",
-    "space": true,
-    "rules": {
-      "object-curly-spacing": "off"
-    },
-    "overrides": [
-      {
-        "files": "test/*.js",
-        "env": [
-          "mocha"
-        ]
-      }
-    ]
   }
 }
