@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const assert = require('assert');
 const sinon = require('sinon');
 const generate = require('lodash.times');

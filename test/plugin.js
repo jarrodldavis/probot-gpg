@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const assert = require('assertive');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire').noCallThru();

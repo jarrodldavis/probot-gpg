@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const sinon = require('sinon');
 
 const createStatus = require('../lib/create-status');

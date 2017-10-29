@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const assert = require('assertive');
 const validateCommit = require('../lib/validate-commit');
 

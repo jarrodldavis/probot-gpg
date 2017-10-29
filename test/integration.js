@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 require('dotenv').config();
 
 const http = require('http');

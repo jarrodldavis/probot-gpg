@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const assert = require('assertive');
 
 const reduceStatuses = require('../lib/reduce-statuses');
