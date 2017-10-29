@@ -15,6 +15,7 @@
 [![NSP status](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac/badge)](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac "NSP status")
 [![Greenkeeper status](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/ "Greenkeeper status")
 [![npm](https://img.shields.io/npm/v/@jarrodldavis/probot-gpg.svg)](https://www.npmjs.com/package/@jarrodldavis/probot-gpg "npm")
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Setup
 
