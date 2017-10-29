@@ -1,99 +1,101 @@
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
+/* eslint-env mocha */
 
-const ContextMock = require('./mocks/context').GpgEventContextMock;
+const sinon = require('sinon')
+const proxyquire = require('proxyquire')
 
-const createSha = require('./utils/create-sha');
-const createCommit = require('./utils/create-commit');
-const createPayload = require('./utils/create-payload');
+const ContextMock = require('./mocks/context').GpgEventContextMock
 
-function arrangeHandler(getCommits, validateCommit, reduceStatuses, createStatus) {
+const createSha = require('./utils/create-sha')
+const createCommit = require('./utils/create-commit')
+const createPayload = require('./utils/create-payload')
+
+function arrangeHandler (getCommits, validateCommit, reduceStatuses, createStatus) {
   return proxyquire('../lib/handle-event', {
     './get-commits': getCommits,
     './validate-commit': validateCommit,
     './reduce-statuses': reduceStatuses,
     './create-status': createStatus
-  });
+  })
 }
 
-function arrangeSpies(context, commitStatuses, overallStatus, spyOverrides) {
-  const commits = commitStatuses.map(status => createCommit(status));
+function arrangeSpies (context, commitStatuses, overallStatus, spyOverrides) {
+  const commits = commitStatuses.map(status => createCommit(status))
 
-  const getCommitsSpy = sinon.stub().resolves(commits);
+  const getCommitsSpy = sinon.stub().resolves(commits)
 
-  const validateCommitSpy = sinon.stub();
+  const validateCommitSpy = sinon.stub()
   for (let i = 0; i <= commits.length; i += 1) {
-    validateCommitSpy.withArgs(context, commits[i]).returns(commitStatuses[i]);
+    validateCommitSpy.withArgs(context, commits[i]).returns(commitStatuses[i])
   }
 
-  const reduceStatusesSpy = sinon.stub().returns(overallStatus);
+  const reduceStatusesSpy = sinon.stub().returns(overallStatus)
 
-  const createStatusResult = { state: overallStatus };
-  const createStatusSpy = sinon.stub().resolves(createStatusResult);
+  const createStatusResult = { state: overallStatus }
+  const createStatusSpy = sinon.stub().resolves(createStatusResult)
 
-  return Object.assign({ commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy }, spyOverrides);
+  return Object.assign({ commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy }, spyOverrides)
 }
 
-function arrangeMocks() {
-  const [baseSha, headSha] = [createSha(), createSha()];
-  const payload = createPayload(baseSha, headSha);
+function arrangeMocks () {
+  const [baseSha, headSha] = [createSha(), createSha()]
+  const payload = createPayload(baseSha, headSha)
 
-  const contextMock = new ContextMock(payload);
+  const contextMock = new ContextMock(payload)
 
-  return contextMock;
+  return contextMock
 }
 
 describe('handle-event', () => {
-  async function testScenario(commitStatuses, overallStatus, spyOverrides = {}) {
+  async function testScenario (commitStatuses, overallStatus, spyOverrides = {}) {
     // Arrange
-    const contextMock = arrangeMocks();
-    const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, commitStatuses, overallStatus, spyOverrides);
-    const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
+    const contextMock = arrangeMocks()
+    const { commits, getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, commitStatuses, overallStatus, spyOverrides)
+    const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy)
 
     // Act
-    await handlerUnderTest(contextMock);
+    await handlerUnderTest(contextMock)
 
     // Assert
-    sinon.assert.calledWith(getCommitsSpy, contextMock);
+    sinon.assert.calledWith(getCommitsSpy, contextMock)
     for (const commit of commits) {
-      sinon.assert.calledWith(validateCommitSpy, contextMock, commit);
+      sinon.assert.calledWith(validateCommitSpy, contextMock, commit)
     }
-    sinon.assert.calledWithMatch(reduceStatusesSpy, sinon.match(contextMock), sinon.match.array.deepEquals(commitStatuses));
-    sinon.assert.calledWith(createStatusSpy, contextMock, overallStatus);
+    sinon.assert.calledWithMatch(reduceStatusesSpy, sinon.match(contextMock), sinon.match.array.deepEquals(commitStatuses))
+    sinon.assert.calledWith(createStatusSpy, contextMock, overallStatus)
   }
 
   it('should orchestrate correctly when all commits are verified', async () => {
-    await testScenario(['success', 'success', 'success'], 'success');
-  });
+    await testScenario(['success', 'success', 'success'], 'success')
+  })
 
   it('should orchestrate correctly when all commits are not verified', async () => {
-    await testScenario(['failure', 'failure', 'failure'], 'failure');
-  });
+    await testScenario(['failure', 'failure', 'failure'], 'failure')
+  })
 
   it('should orchestrate correctly when GPG verification check returns an error', async () => {
-    await testScenario(['success', 'error', 'success'], 'error');
-  });
+    await testScenario(['success', 'error', 'success'], 'error')
+  })
 
   it('should orchestrate correctly when commit retrieval throws an error', async () => {
     // Arrange
-    const contextMock = arrangeMocks();
-    const getCommitsSpy = sinon.stub().throws();
-    const { validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, ['success', 'success', 'success'], 'success');
-    const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy);
+    const contextMock = arrangeMocks()
+    const getCommitsSpy = sinon.stub().throws()
+    const { validateCommitSpy, reduceStatusesSpy, createStatusSpy } = arrangeSpies(contextMock, ['success', 'success', 'success'], 'success')
+    const handlerUnderTest = arrangeHandler(getCommitsSpy, validateCommitSpy, reduceStatusesSpy, createStatusSpy)
 
     // Act
-    await handlerUnderTest(contextMock);
+    await handlerUnderTest(contextMock)
 
     // Assert
-    sinon.assert.calledWith(getCommitsSpy, contextMock);
-    sinon.assert.notCalled(validateCommitSpy);
-    sinon.assert.notCalled(reduceStatusesSpy);
-    sinon.assert.calledWith(createStatusSpy, contextMock, 'error');
-  });
+    sinon.assert.calledWith(getCommitsSpy, contextMock)
+    sinon.assert.notCalled(validateCommitSpy)
+    sinon.assert.notCalled(reduceStatusesSpy)
+    sinon.assert.calledWith(createStatusSpy, contextMock, 'error')
+  })
 
   it('should orchestrate correctly when status creation throws an error', async () => {
     await testScenario(['success', 'success', 'success'], 'success', {
       createStatusSpy: sinon.stub().throws()
-    });
-  });
-});
+    })
+  })
+})

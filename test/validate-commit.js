@@ -1,49 +1,51 @@
-const assert = require('assertive');
-const validateCommit = require('../lib/validate-commit');
+/* eslint-env mocha */
 
-const ContextMock = require('./mocks/context').GpgEventContextMock;
+const assert = require('assertive')
+const validateCommit = require('../lib/validate-commit')
 
-const createCommit = require('./utils/create-commit');
-const createPayload = require('./utils/create-payload');
-const createSha = require('./utils/create-sha');
+const ContextMock = require('./mocks/context').GpgEventContextMock
+
+const createCommit = require('./utils/create-commit')
+const createPayload = require('./utils/create-payload')
+const createSha = require('./utils/create-sha')
 
 describe('validate-commit', () => {
-  let contextMock;
+  let contextMock
 
   beforeEach(() => {
-    contextMock = new ContextMock(createPayload(createSha(), createSha()));
-  });
+    contextMock = new ContextMock(createPayload(createSha(), createSha()))
+  })
 
   it('should return "success" if commit is verified', () => {
     // Arrange
-    const commit = createCommit('success');
+    const commit = createCommit('success')
 
     // Act
-    const actual = validateCommit(contextMock, commit);
+    const actual = validateCommit(contextMock, commit)
 
     // Assert
-    assert.equal('success', actual);
-  });
+    assert.equal('success', actual)
+  })
 
   it('should return "failure" if commit is not verified', () => {
     // Arrange
-    const commit = createCommit('failure');
+    const commit = createCommit('failure')
 
     // Act
-    const actual = validateCommit(contextMock, commit);
+    const actual = validateCommit(contextMock, commit)
 
     // Assert
-    assert.equal('failure', actual);
-  });
+    assert.equal('failure', actual)
+  })
 
   it('should return "error" if commit has not verification information', () => {
     // Arrange
-    const commit = createCommit('error');
+    const commit = createCommit('error')
 
     // Act
-    const actual = validateCommit(contextMock, commit);
+    const actual = validateCommit(contextMock, commit)
 
     //
-    assert.equal('error', actual);
-  });
-});
+    assert.equal('error', actual)
+  })
+})
