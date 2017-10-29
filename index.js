@@ -1,3 +1,3 @@
-const Plugin = require('./lib/plugin');
+const Plugin = require('./lib/plugin')
 
-module.exports = robot => new Plugin().load(robot);
+module.exports = robot => new Plugin().load(robot)

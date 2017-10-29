@@ -1,4 +1,4 @@
-const createAppId = require('./create-app-id');
+const createAppId = require('./create-app-id')
 
 module.exports = (baseSha, headSha, { action, repoName, number } = {}) => {
   return {
@@ -13,5 +13,5 @@ module.exports = (baseSha, headSha, { action, repoName, number } = {}) => {
     repository: {
       full_name: repoName // eslint-disable-line camelcase
     }
-  };
-};
+  }
+}
