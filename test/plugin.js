@@ -10,14 +10,19 @@ const RobotMock = require('./mocks/robot')
 
 const createPayload = require('./utils/create-payload')
 const createSha = require('./utils/create-sha')
+const createLogStubs = require('./utils/create-log-stubs')
 
 function arrange (handleEventSpy) {
   const payload = createPayload(createSha(), createSha())
   const contextMock = new ContextMock(payload)
   const gpgContextMock = new GpgEventContextMock(payload)
   const gpgContextConstructorMock = sinon.spy(() => gpgContextMock)
+  const bunyanStub = createLogStubs()
 
   const Plugin = proxyquire('../lib/plugin', {
+    'bunyan': {
+      createLogger: () => bunyanStub
+    },
     './handle-event': handleEventSpy,
     './gpg-context': gpgContextConstructorMock
   })
@@ -26,7 +31,8 @@ function arrange (handleEventSpy) {
     robotMock: new RobotMock(),
     contextMock,
     gpgContextMock,
-    gpgContextConstructorMock
+    gpgContextConstructorMock,
+    bunyanStub
   }
 }
 
@@ -34,14 +40,14 @@ describe('plugin', () => {
   it('should load correctly', async () => {
     // Arrange
     const handleEventSpy = sinon.spy()
-    const { plugin, robotMock, contextMock, gpgContextMock, gpgContextConstructorMock } = arrange(handleEventSpy)
+    const { plugin, robotMock, contextMock, gpgContextMock, gpgContextConstructorMock, bunyanStub } = arrange(handleEventSpy)
 
     // Act
     plugin.load(robotMock)
     await plugin.acceptEvent(contextMock)
 
     // Assert
-    sinon.assert.calledWith(gpgContextConstructorMock, robotMock, contextMock)
+    sinon.assert.calledWith(gpgContextConstructorMock, bunyanStub, contextMock)
     sinon.assert.calledWith(handleEventSpy, gpgContextMock)
   })
 

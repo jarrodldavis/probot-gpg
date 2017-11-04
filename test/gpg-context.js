@@ -6,16 +6,15 @@ const uuid = require('uuid/v4')
 
 const GpgEventContext = require('../lib/gpg-context')
 
-const RobotMock = require('./mocks/robot')
 const ContextMock = require('./mocks/context').ProbotContextMock
 
 const createPayload = require('./utils/create-payload')
 const createSha = require('./utils/create-sha')
+const createLogStubs = require('./utils/create-log-stubs')
 
 describe('gpg-context', () => {
   it('should assign base context properties to itself', () => {
     // Arrange
-    const robot = new RobotMock()
     const context = new ContextMock(createPayload(createSha(), createSha(), {
       action: 'synchronize',
       repoName: 'jarrodldavis/probot-gpg-test',
@@ -23,7 +22,7 @@ describe('gpg-context', () => {
     }), 'pull_request', uuid())
 
     // Act
-    const gpgContext = new GpgEventContext(robot, context)
+    const gpgContext = new GpgEventContext(createLogStubs(), context)
 
     // Assert
     assert.equal(context.payload, gpgContext.payload)
@@ -32,8 +31,6 @@ describe('gpg-context', () => {
 
   it('should prefix log output', () => {
     // Arrange
-    const robot = new RobotMock()
-
     const payload = createPayload(createSha(), createSha(), {
       action: 'synchronize',
       repoName: 'jarrodldavis/probot-gpg-test',
@@ -43,9 +40,10 @@ describe('gpg-context', () => {
     const webhookId = uuid()
     const context = new ContextMock(payload, 'pull_request', webhookId)
 
-    const expectedPrefix = `[GPG] {pull_request.synchronize@jarrodldavis/probot-gpg-test#1} (${webhookId})`
-
-    const gpgContext = new GpgEventContext(robot, context)
+    const log = createLogStubs()
+    const childLog = createLogStubs()
+    sinon.stub(log, 'child').returns(childLog)
+    const gpgContext = new GpgEventContext(log, context)
 
     // Act
     gpgContext.log.debug('This is for debugging')
@@ -53,8 +51,15 @@ describe('gpg-context', () => {
     gpgContext.log.error('An error occurred')
 
     // Assert
-    sinon.assert.calledWith(robot.log.debug, `${expectedPrefix}\nThis is for debugging`)
-    sinon.assert.calledWith(robot.log.info, `${expectedPrefix}\nHere is some information`)
-    sinon.assert.calledWith(robot.log.error, `${expectedPrefix}\nAn error occurred`)
+    sinon.assert.calledWith(log.child, {
+      event: 'pull_request',
+      action: 'synchronize',
+      repo: 'jarrodldavis/probot-gpg-test',
+      number: 1,
+      webhook: webhookId
+    })
+    sinon.assert.calledWith(childLog.debug, 'This is for debugging')
+    sinon.assert.calledWith(childLog.info, 'Here is some information')
+    sinon.assert.calledWith(childLog.error, 'An error occurred')
   })
 })
