@@ -1,17 +1,24 @@
 {
   "name": "@jarrodldavis/probot-gpg",
   "version": "0.5.0",
-  "description": "A GitHub App built with probot that enforces GPG signatures on Pull Requests",
+  "description": "A GitHub App built with Probot that enforces GPG signatures on pull requests",
   "keywords": [
     "git",
     "pull request",
+    "pull requests",
     "github",
+    "github workflow",
     "github integration",
     "github app",
+    "github api",
     "probot",
     "probot plugin",
+    "probot app",
     "gpg",
-    "gpg signature"
+    "gpg signature",
+    "gpg key",
+    "signing commits",
+    "git signing"
   ],
   "author": "Jarrod Davis <developer@jarrodldavis.com>",
   "license": "MIT",
