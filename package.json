@@ -34,6 +34,7 @@
     "lt": "lt --port 3000"
   },
   "dependencies": {
+    "bunyan": "^1.8.12",
     "probot": "~3.0.0"
   },
   "devDependencies": {
