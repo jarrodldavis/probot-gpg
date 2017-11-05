@@ -34,8 +34,8 @@
       "value": "debug"
     },
     "LOG_FORMAT": {
-      "description": "how log output should be formatted (simple, short, long, bunyan, json, inspect)",
-      "value": "long"
+      "description": "how Probot core log output should be formatted (simple, short, long, bunyan, json, inspect)",
+      "value": "bunyan"
     }
   },
   "formation": {
