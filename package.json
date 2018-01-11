@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "bunyan": "^1.8.12",
-    "probot": "~3.0.0"
+    "probot": "~4.1.0"
   },
   "devDependencies": {
     "assertive": "^2.3.4",
