@@ -56,7 +56,7 @@
     "node-forge": "^0.7.1",
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
-    "sinon": "^4.0.0",
+    "sinon": "4.1.5",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3",
     "strip-ansi": "^4.0.0",
