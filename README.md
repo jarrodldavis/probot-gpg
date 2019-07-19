@@ -17,6 +17,10 @@
 [![npm](https://img.shields.io/npm/v/@jarrodldavis/probot-gpg.svg)](https://www.npmjs.com/package/@jarrodldavis/probot-gpg "npm")
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Deprecation
+
+**This GitHub App is no longer being kept up-to-date and is considered deprecated. It is recommended to use [GitHub's built-in enforcement](https://help.github.com/en/articles/about-required-commit-signing) of commit signature verification instead.**
+
 ## Setup
 
 ```
