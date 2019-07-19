@@ -10,12 +10,9 @@
 
 > A GitHub App built with [Probot](https://github.com/probot/probot) that enforces GPG signatures on pull requests
 
-[![Build status](https://travis-ci.org/jarrodldavis/probot-gpg.svg?branch=develop)](https://travis-ci.org/jarrodldavis/probot-gpg "Build status")
-[![Coverage status](https://coveralls.io/repos/github/jarrodldavis/probot-gpg/badge.svg)](https://coveralls.io/github/jarrodldavis/probot-gpg "Coverage status")
-[![NSP status](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac/badge)](https://nodesecurity.io/orgs/jarrodldavis/projects/d841ad74-0b11-47f3-9216-bc6e48414bac "NSP status")
-[![Greenkeeper status](https://badges.greenkeeper.io/jarrodldavis/probot-gpg.svg)](https://greenkeeper.io/ "Greenkeeper status")
-[![npm](https://img.shields.io/npm/v/@jarrodldavis/probot-gpg.svg)](https://www.npmjs.com/package/@jarrodldavis/probot-gpg "npm")
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+## Deprecation
+
+**This GitHub App is no longer being kept up-to-date and is considered deprecated. It is recommended to use [GitHub's built-in enforcement](https://help.github.com/en/articles/about-required-commit-signing) of commit signature verification instead.**
 
 ## Setup
 
